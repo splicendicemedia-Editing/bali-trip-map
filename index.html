@@ -63,7 +63,7 @@ input[type=password]{font:inherit;width:100%;padding:9px 10px;border-radius:8px;
 .plist h3{flex-basis:100%;margin:6px 0 0;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 button.pb{font:inherit;font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:5px 11px;border-radius:999px}
 button.pb::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;background:var(--kc,var(--muted))}
-[data-k="stay"]{--kc:var(--c-stay)}[data-k="club"]{--kc:var(--c-club)}[data-k="sight"]{--kc:var(--c-sight)}[data-k="air"]{--kc:var(--c-air)}[data-k="oair"]{--kc:var(--c-oair)}[data-k="hotel"]{--kc:var(--c-hotel)}[data-k="rent"]{--kc:var(--c-rent)}[data-k="act"]{--kc:var(--c-act)}
+[data-k="stay"]{--kc:var(--c-stay)}[data-k="club"]{--kc:var(--c-club)}[data-k="sight"]{--kc:var(--c-sight)}[data-k="air"]{--kc:var(--c-air)}[data-k="oair"]{--kc:var(--c-oair)}[data-k="hotel"]{--kc:var(--c-hotel)}[data-k="rent"]{--kc:var(--c-rent)}[data-k="act"]{--kc:var(--c-act)}[data-k="port"]{--kc:#1D6FA5}
 /* map pins */
 .mk{background:none;border:0;padding:0;margin:0;cursor:pointer;font:inherit;color:inherit}
 .mk i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--kc);color:#fff;border:2.5px solid #fff;font:800 13px/1 system-ui,sans-serif;font-style:normal;box-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -74,6 +74,13 @@ button.pb::before{content:"";display:inline-block;width:9px;height:9px;border-ra
 .mk[data-k="rent"] i{width:24px;height:24px;font-size:12px}
 .rl{font:700 12px/1.2 system-ui,sans-serif;padding:3px 9px;border-radius:999px;white-space:nowrap;pointer-events:none;box-shadow:0 1px 6px rgba(0,0,0,.45)}
 .rl.reach{background:#FFC94D;color:#0D2830}
+.rl.boat{background:#fff;color:#0D2830;pointer-events:auto;cursor:pointer;border:0;font:700 12px/1.2 system-ui,sans-serif}
+.mk[data-k="port"] i{width:22px;height:22px;font-size:11px;border-radius:6px}
+.dblk{border-left:4px solid var(--dc);padding:2px 0 2px 10px;display:grid;gap:4px}
+.dblk .hint{margin:0}
+.dttl{font:inherit;font-weight:700;text-align:left;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.dttl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card table{font-size:.82rem}
 .rl.scoot{background:#FF8DB8;color:#3A0018}
 .steps{margin:0;padding-left:1.4rem;display:grid;gap:6px;font-size:.86rem}
 .steps span{color:var(--muted);margin-left:6px}
@@ -115,7 +122,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   <aside id="panel">
     <div class="grp"><div class="eyebrow">Jump to</div><div class="row" id="viewbar"></div></div>
     <div class="grp"><div class="eyebrow">Show</div><div class="row" id="layerbar"></div></div>
-    <div class="grp"><div class="eyebrow">Follow a day</div><div class="row" id="daybar"></div></div>
+    <div class="grp"><div class="eyebrow">Pick one or more days</div><div class="row" id="daybar"></div></div>
     <article class="card" id="card" aria-live="polite"></article>
     <details open><summary>Drives between your stays</summary>
       <table><thead><tr><th>Leg</th><th class="n">Road</th><th class="n">No traffic</th></tr></thead><tbody id="legs"></tbody></table>
@@ -154,7 +161,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
 (function(){
   var $=function(i){return document.getElementById(i)};
   var ROUTES=[{"a":"air","b":"s1","km":15.7,"min":21,"g":"hekt@sl|}TcDF]}_AwBgBzBi[sByCaVjKsx@fKyq@gQou@u[cMO}dD`cB}OvRc]iDse@pCcCfj@zGjg@J|h@kRpFsJoHeTaBe@`FsSQqDbc@sBrFeFmC"},{"a":"s1","b":"s2","km":31.6,"min":31,"g":"vbzs@akw}T{g@}RwPmPDqLsh@mf@uInIzYw`@rIex@cI}CvEkRix@cQkDq|BpQi}@kTcsAyBydElVyXa]gJkJaZ}|Abc@slAxGszBaHop@gKaIsEr@yHoy@{Qe|Ca@sr@sJ}{A`BiBnXiz@iO"},{"a":"s2","b":"s3","km":53.1,"min":51,"g":"xv|r@kbo~TBcTxnAzNl{GtDlsBpn@rzB`HrlAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEz|A}d@~qDxEtGzhAnoAzwDgHhu@td@lfBnAt{@~w@vUd{A}YflAlVbnClAp]|sA`mEthAbNty@fm@ti@dMbgAor@jU_k@z|@m~@ec@"},{"a":"s3","b":"sanur","km":36.9,"min":37,"g":"l|vt@m~r}TvMhSto@zN~j@{|@nr@kUeMcgAgm@ui@cNuy@a\\yS}hByXyeA}Y?}FsEzAnEuVuZe\\{CuVilCiD}iAoV_}A|Yu}@aWnAcy@}d@ogBdHyu@a_@}w@i@}^wUu~@iWg_@kBmdAuvDqIsm@bXo}@xJ`z@kJda@wPwC_OqHh@"},{"a":"sanur","b":"s4","km":14.5,"min":17,"g":"lh|s@gzn~TrGwBlE~P~MiG`@xKyKh_FcPjA{Ad}@fEpHfc@dQpV~QrD~HxDn`@oC~q@qg@`[wGjLpB``@aI~Uz@zTqDlx@nFr@zGfT`Mn@tChO}Bv@"},{"a":"s4","b":"air","km":13,"min":17,"g":"ls}s@c~y}T|Bw@sDcZzEgN`X~BN}B?}K_WuBVkFvWVpL}VdKwJ|gDucB|Kf@bq@jZdt@rRd{@cLhXwQdAxEeEla@bBzA\\|_AbDG"}];
-  var KT={air:'Your airport',oair:'Other airport',stay:'Your stay',club:'Club',sight:'Sight',isl:'Island',city:'Home',hotel:'Other hotel option',rent:'Scooter rental',act:'More to do'};
+  var KT={air:'Your airport',oair:'Other airport',stay:'Your stay',club:'Club',sight:'Sight',isl:'Island',city:'Home',hotel:'Other hotel option',rent:'Scooter rental',act:'More to do',port:'Boat port'};
   var SCOOT=8;
   var DAYR={"D2":{"km":15.7,"min":21,"g":["hekt@sl|}TcDF]}_AwBgBzBi[sByCaVjKsx@fKyq@gQou@u[cMO}dD`cB}OvRc]iDse@pCcCfj@zGjg@J|h@kRpFsJoHeTaBe@`FsSQqDbc@sBrFeFmC"],"legs":[{"a":"air","b":"s1","km":15.7,"min":21,"s":0}]},"D3":{"km":34.4,"min":53,"g":["vbzs@akw}T~NvDnd@Dgp@y@e[wKa^sWwCqI|AcDsh@eg@gGjJaCcAe]jm@H~OwWvs@i|@f{AuMtNaw@jV_TtScTzd@xbA`w@zEd\\`EvEsDxE`BpIzG{H~GfD_HgD{GzH_J}LtF{HaFo\\ybAaw@bT{d@~SuS`w@kVtMuNd{@gyArYkx@dK~L~MhDd\\pXtFdSr_@~X~S`W_TaWs_@_YuFeSe\\qXsO{EqImKa@kMbd@qz@jl@bi@i@bFzB`BwAjBvPlPlQbKlUxF"],"legs":[{"a":"s1","b":"finns","km":1,"min":2,"s":0},{"a":"finns","b":"tanah","km":14.1,"min":21,"s":0},{"a":"tanah","b":"brisa","km":11.9,"min":18,"s":0},{"a":"brisa","b":"s1","km":7.3,"min":12,"s":0}]},"D4":{"km":63.3,"min":65,"g":["vbzs@akw}T{g@}Rez@meAuInIdZsa@|EsoAix@cQkDq|BpQi}@kTcsAyBydEbVsYq\\eIuKuZy{Anc@uoAnGs[{gB|Ua[iGuv@{uBjEcH`XknBbXfMsoC~k@pAxLd`@yLe`@{k@fL_ObaCouFfN{@hRekE{b@aiAm\\mwAnMelBsXywB~FxwB_GdlBrXpyAcMpvD~l@iDfd@bMnBgMrP"],"legs":[{"a":"s1","b":"tegen","km":32.4,"min":31,"s":0},{"a":"tegen","b":"tegal","km":20.1,"min":22,"s":0},{"a":"tegal","b":"s2","km":10.9,"min":12,"s":0}]},"D5":{"km":92.6,"min":84,"g":["xv|r@kbo~TjFcy@ryAtQo@gtC{vDrDo{@yPcShOqmAiOinCmfB{_A~VicBcM{Igy@glD_}AowAgVatA{y@yuC`Ys|BiYqcDkpAu^o^uY~HlCuT{U_BbEkXcRsH|Ggk@eSxNau@wd@uP}a@mN~f@swA|GcI|ObI}OrwA}GlN_g@tP|a@`u@vd@dSyN}Gfk@bRrHcEjXzU~AoC~SvYiHnaAjq@nwDzmAnpAhHdkCmX`tAzy@nwAfVflD~|ApH`y@gh@{MpJuRqJtRvN`GtzBvShcAsV~iCvdBlpAzPpTeOn{@xPzvDsDn@ftCsyAuQgF~c@bMnBgMrP"],"legs":[{"a":"s2","b":"batur","km":44.9,"min":39,"s":0},{"a":"batur","b":"tirta","km":27.9,"min":28,"s":0},{"a":"tirta","b":"s2","km":19.7,"min":17,"s":0}]},"D6":{"km":77.4,"min":82,"g":["xv|r@kbo~Ts\\bx@eeBqE{F~n@}yAgU_@tZeAiZvONn{Gh}@h}@oYjo@Mxr@oe@fxDwk@f|DvZrlAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEz|A}d@~qDxEtGzhAnoAzwDgHhu@td@lfBnAt{@~w@vUd{A}YflAlVbnClAp]|sA`mEthAbNty@fm@ti@dMbgAor@jU_k@z|@m~@ec@vMhSpf@nG{Qjt@hb@zc@wDhg@f_@vSxOkKn^t\\o^u\\yOjKg_@wSvDig@ib@{c@zQkt@qf@oGwMiS"],"legs":[{"a":"s2","b":"raft","km":6.4,"min":7,"s":0},{"a":"raft","b":"s3","km":57.4,"min":54,"s":0},{"a":"s3","b":"ulutemple","km":6.8,"min":11,"s":0},{"a":"ulutemple","b":"s3","km":6.8,"min":10,"s":0}]},"D7":{"km":27.9,"min":48,"g":["l|vt@m~r}ToArDfEz@AvAdH~AWxBfB`@SdAnFH|EjE`CZzA_A|DnD~D_BfELPlF_C@_CrSwIrTVfG|@rItMpDs@zHjNHnBzDq@lEeB`@s@tGPhBtB|A?`HiFpV_B~BX|@Y}@~A_ChFqV?aHuB}AQiBr@uGdBa@p@mEoB{DkNIr@{HuMqDkBgNlJgXzBiSdMg@`H{OtS{SbLsVb[wIdDiHrPu@l@yCsDaAl@c^gJma@yEyI_ZcSzAqDnAkWpCgHjAkOfMlHlLc@d\\hApAmElByAe@kEhGF\\gA`BCVoBdLw@tD~CaAlE^zBhMEr@yAfCUhFgDfIh@gIi@iFfDgCTs@xAiMDbAbEjMzFqDtIhDz@aAbP|CfBDrHiBBm@`JhHV|@kJfIi@gIh@cAlJcHYIgBeNqBcFdUcTzDePs@}@nFoSmD~Gp[q@b]xDpAi@~CyP~@eDhHo[`JwKhVsSxSoHhPuHNWwFaEC_E~A}DoD{A~@aC[}EkEoFIReAgBa@VyBeH_B@wAgE{@nAsD"],"legs":[{"a":"s3","b":"padang","km":2.6,"min":4,"s":0},{"a":"padang","b":"singlefin","km":2.3,"min":3,"s":0},{"a":"singlefin","b":"sundays","km":12.2,"min":18,"s":0},{"a":"sundays","b":"savaya","km":2.9,"min":8,"s":0},{"a":"savaya","b":"s3","km":8,"min":15,"s":0}]},"D8":{"km":90.2,"min":115,"g":["l|vt@m~r}TvMhSto@zN~j@{|@nr@kUeMcgAgm@ui@cNuy@a\\yS}hByXyeA}Y?}FsEzAnEuVuZe\\{CuVilCiD}iAoV_}A|Yu}@aWnAcy@}d@ogBdHyu@a_@}w@i@}^wUu~@iWg_@kBmdAuvDqIsm@bXo}@xJ`z@kJda@wPwC_OqHh@","z|}s@{|{_Uy@tCtHlEjYjJxRaHvQ|ElYqFbDqJ|KvBfQ{ChC\\RbGlVUvGjI~Lf@rAdOyEdKxB~IkLxCfD~NlFb@tEbLnEdd@|J~BfBf^rRdM]pJ|@_H`CF}CjQ|CkQaCG}@~G\\qJsReMgBg^}J_CoEed@uEcLmFc@gDeOnLeD}BmIxEeKe@iXoCcEbAiK|EuDgFcPtBaJzKaGjDwHzF|@xRqHnJyIpL`BvEsQdM^`YgHr@`F~CLqBfCtDnAPj[xEnJnTo@lOpY_@fHbEdBtJiC|FzQ|PuJdT`AyAfx@|G|L}AfShQ\\fGnCFjOGkOgGoCiQ]bBaRcHcNxAgx@eTaAsObKgHiRuJhCcEeB^gHsIsK\\sFwFwEwRpAuEaIf@iSaCiCh@_EsDiApBgC_DMcAiFqXnHyMUcEhQqLaBoJxIyRpH{F}@kDvHwFpA{GxNjFjN_FdGcAhKlC`F{@zEqEpA}IkDwCoFmVTScGiC]gQzC}KwBcDpJmYpFwQ}EyR`HkYkJuHmEx@uC","lh|s@gzn~TrGwBlE~P~MiG`@xKyKh_FcPjA{Ad}@fEpHfc@dQpV~QrD~HxDn`@oC~q@qg@`[wGjLpB``@aI~Uz@zTqDlx@nFr@zGfT`Mn@tChO}Bv@"],"legs":[{"a":"s3","b":"sanur","km":36.9,"min":37,"s":0},{"a":"sanur","b":"pport","boat":true,"min":45,"s":1},{"a":"pport","b":"crystal","km":8.6,"min":16,"s":1},{"a":"crystal","b":"keling","km":15.3,"min":25,"s":1},{"a":"keling","b":"pport","km":14.9,"min":19,"s":1},{"a":"pport","b":"sanur","boat":true,"min":45,"s":1},{"a":"sanur","b":"s4","km":14.5,"min":17,"s":2}]},"D9":{"km":86.1,"min":84,"g":["ls}s@c~y}TWaQaMo@kO{UvA}YkTt@yX_PqnAeD{c@uVqu@sOkDq|BpQi}@kTcsAyBydEjVcYy\\uImKuZa|Anc@uoAnGs[{gB|GgW~LyB}Aam@wDuHec@dCV`KfG][_Ml[g@jDrH|A`m@_MxB}GfW`^dhBfmAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEdm@eKtn@wXdXxErzC^zEzgAvVv]fVf`Ah@x^d_@`x@gHhu@td@lfBx@|z@tx@nVd{A}YflAlVrvB`HnVsEpAhYn[~_@iEvj@oNnAiIcLbKuOjLtBrEcSa[e_@{CuVilCiD}iAoV_}A|YwrBgo@qlDxfBwOb_@bHrOc@t[zPxLe[lMgb@iE","ls}s@c~y}TlBZNsA`JdBt@dLALkAD@|AQr@cCLFWjBKkBJGV|BIVq@AcBjAEs@sLpFCXVp@dB`@Z|BNhDI\\g@CqFzAqSpEVNXtAj@fGhAPTB`BxClBR`@`@vCf@`AQ[o@kCk@HcDhAuCnB_GvB}Bh@_CH@l@_@j@oCHeDS_BuCuDHcBKiHyAg@[cCyNT[m@qHHg@vCuFXiC^eAjFlAdHBnGl@Z_G@wDMcBoKI}Ca@qEiAKOb@{ErJ`@bLIrGuNV`@@`@cCrL~DTHbELlA\\h@l@`EXrFA|KQzBk@`CdB~@fGhAPTB`BxClB^nAuBd@sF`D_GvB}Bh@_CH@l@_@j@iDHgCQiA_Ce@YeFDaJeBOrAmB["],"legs":[{"a":"s4","b":"sukawati","km":23.6,"min":20,"s":0},{"a":"sukawati","b":"jimbaran","km":35.3,"min":29,"s":0},{"a":"jimbaran","b":"s4","km":17.1,"min":16,"s":0},{"a":"s4","b":"potato","km":0.7,"min":3,"s":1},{"a":"potato","b":"kudeta","km":2.3,"min":6,"s":1},{"a":"kudeta","b":"favela","km":4.7,"min":6,"s":1},{"a":"favela","b":"s4","km":2.4,"min":3,"s":1}]},"D10":{"km":13,"min":17,"g":["ls}s@c~y}T|Bw@sDcZzEgN`X~BN}B?}K_WuBVkFvWVpL}VdKwJ|gDucB|Kf@bq@jZdt@rRd{@cLhXwQdAxEeEla@bBzA\\|_AbDG"],"legs":[{"a":"s4","b":"air","km":13,"min":17,"s":0}]}};
   var DPS=[115.1672,-8.7482];
@@ -190,8 +197,11 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     {id:'raft',k:'sight',name:'Ayung River rafting',area:'West of Ubud',lon:115.245,lat:-8.47,approx:true,day:'D6',q:'Ayung River Rafting Ubud',txt:'About 2 hours of rafting with life jackets and a guide. Start points differ by operator. Tell the guide who cannot swim.'},
     {id:'ulutemple',k:'sight',name:'Uluwatu Temple',area:'Uluwatu',lon:115.08434,lat:-8.82937,day:'D6',txt:'Cliff temple with the 6 pm Kecak fire dance. Monkeys steal sunglasses and phones.'},
     {id:'padang',k:'sight',name:'Padang Padang Beach',area:'Uluwatu',lon:115.10364,lat:-8.81122,day:'D7',txt:'Small cove beach. Stay in the shallows if you cannot swim.'},
-    {id:'sanur',k:'sight',name:'Sanur Harbour',area:'Sanur',lon:115.26088,lat:-8.66962,day:'D8',q:'Pelabuhan Sanur',txt:'Fast boats to Nusa Penida leave from here, about 45 minutes each way.'},
-    {id:'pport',k:'sight',name:'Nusa Penida harbour (Toyapakeh)',area:'Nusa Penida',lon:115.49147,lat:-8.67811,day:'D8',nog:true,txt:'Where the fast boat lands on Nusa Penida. Your car tour of the west side starts here.'},
+    {id:'sanur',k:'sight',name:'Sanur Harbour',area:'Sanur',lon:115.26088,lat:-8.66962,day:'D8',q:'Pelabuhan Sanur',price:'Fast boat: IDR 170,000 to 215,000 one way, plus a IDR 25,000 island fee',txt:'Fast boats to Nusa Penida leave from this terminal and take about 45 minutes. The first boat out is 6:30 am and the last boat back is 5:00 pm. Book online a day ahead.'},
+    {id:'pport',k:'sight',name:'Nusa Penida harbour (Banjar Nyuh)',area:'Nusa Penida, beside Toyapakeh',lon:115.49147,lat:-8.67811,day:'D8',nog:true,price:'Last boat back to Sanur: 5:00 pm',txt:'Where the Sanur fast boats land, beside Toyapakeh village. Your car tour of the west side starts here. You pay the IDR 25,000 island fee at the port.'},
+    {id:'kus',k:'port',code:'B',name:'Kusamba harbour',area:'East Bali',lon:115.44477,lat:-8.5665,approx:true,q:'Pelabuhan Tribuana Kusamba',price:'Fast boat: IDR 150,000 to 212,000 one way',txt:'The shortest crossing to Nusa Penida, about 25 to 30 minutes. It suits people staying in east Bali. From your stays it is a much longer drive than Sanur.'},
+    {id:'pbai',k:'port',code:'B',name:'Padang Bai ferry terminal',area:'East Bali',lon:115.50886,lat:-8.5334,q:'Pelabuhan Padangbai',price:'Car ferry: about IDR 120,000 for a scooter and two people',txt:'The slow car ferry to Sampalan on Nusa Penida. It takes about 90 minutes and is often late. It leaves at 10:00 am and 2:00 pm, and on Sundays at 10:00 am only. It is only worth it for taking a vehicle across.'},
+    {id:'samp',k:'port',code:'B',name:'Sampalan harbour',area:'Nusa Penida (north)',lon:115.55427,lat:-8.6727,q:'Pelabuhan Sampalan Nusa Penida',txt:'Where the car ferry from Padang Bai and some fast boats land, about 7 km east of your harbour.'},
     {id:'crystal',k:'sight',name:'Crystal Bay',area:'Nusa Penida',lon:115.45774,lat:-8.71507,day:'D8',q:'Crystal Bay Nusa Penida',txt:'Beach stop on the west-side island tour.'},
     {id:'keling',k:'sight',name:'Kelingking Beach viewpoint',area:'Nusa Penida',lon:115.47313,lat:-8.75126,day:'D8',txt:'The T-Rex cliff. Photos from the top only, do not climb down.'},
     {id:'sukawati',k:'sight',name:'Sukawati Art Market',area:'Gianyar',lon:115.28244,lat:-8.59648,day:'D9',txt:'Souvenir shopping. Go early and counter the first price at about half.'},
@@ -237,7 +247,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     {id:'i-bali',k:'isl',name:'Bali',label:'Bali · your island',lon:115.03,lat:-8.33,nog:true,v:{c:[115.2,-8.45],z:8.9,pitch:0},txt:'The island you stay on, in Indonesia. It is about 145 km from west to east. All four of your stays are in the south and centre.'},
     {id:'i-java',k:'isl',name:'Java',label:'Java',lon:114.1,lat:-8.05,nog:true,txt:'The next island to the west, across the narrow Bali Strait. You do not go there on this trip.'},
     {id:'i-lombok',k:'isl',name:'Lombok',label:'Lombok',lon:116.3,lat:-8.52,nog:true,txt:'The next island to the east. You do not go there on this trip.'},
-    {id:'i-penida',k:'isl',name:'Nusa Penida',label:'Nusa Penida · day trip',lon:115.56,lat:-8.74,nog:true,v:{c:[115.47,-8.71],z:11.4},txt:'A separate small island south-east of Bali. You go by fast boat from Sanur on D8 and come back the same day.',how:['Driver from your Uluwatu stay to Sanur harbour: 37 km, about 37 minutes on empty roads.','Fast boat from Sanur to Toyapakeh harbour: about 45 minutes. Book a morning boat a day ahead.','Car with a driver for the west side: Crystal Bay, Kelingking and Broken Beach. Island roads are steep and rough, so skip scooters here.','Afternoon boat back to Sanur, then driver to your Seminyak villa: 15 km.']},
+    {id:'i-penida',k:'isl',name:'Nusa Penida',label:'Nusa Penida · day trip',lon:115.56,lat:-8.74,nog:true,v:{c:[115.47,-8.71],z:11.4},txt:'A separate small island south-east of Bali. You go by fast boat from Sanur on D8 and come back the same day.',how:['Driver from your Uluwatu stay to Sanur harbour: 37 km, about 37 minutes on empty roads.','Fast boat from Sanur to Banjar Nyuh harbour, beside Toyapakeh: about 45 minutes and IDR 170,000 to 215,000 one way. Book a morning boat a day ahead.','Car with a driver for the west side: Crystal Bay, Kelingking and Broken Beach. Island roads are steep and rough, so skip scooters here.','Afternoon boat back to Sanur, then driver to your Seminyak villa: 15 km.']},
     {id:'khi',k:'city',name:'Karachi (KHI)',label:'Karachi · fly out',lon:67.1608,lat:24.9065,nog:true,txt:'You fly out from Karachi. There are no direct flights to Bali, so expect one stop and about 12 to 18 hours in total.'},
     {id:'isb',k:'city',name:'Islamabad (ISB)',label:'Islamabad · fly home',lon:72.8258,lat:33.549,nog:true,txt:'You fly home to Islamabad, again with one stop.'}
   ];
@@ -266,7 +276,8 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   ];
   var LEGN={air:'Airport',s1:'Canggu',s2:'Ubud',s3:'Uluwatu',sanur:'Sanur harbour',s4:'Seminyak'};
   var byId={};PL.forEach(function(p){byId[p.id]=p});
-  var map=null,sel=null,day=null,mode='sat',L={stay:true,club:true,sight:true,route:true,hotel:true,rent:true,act:true,ring:true},tier=2,RL=[],RLon=[false,false];
+  var DS=[],BL=[],DC=['#3DE0FF','#FF8A5B','#C3A6FF','#7CE38B','#FFE08A','#FF7EB6','#6FB1FF','#F4B183','#A5F0E8'];
+  var map=null,sel=null,mode='sat',L={stay:true,club:true,sight:true,route:true,hotel:true,rent:true,act:true,ring:true},tier=2,RL=[],RLon=[false,false,false,false];
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
   function km(la1,lo1,la2,lo2){var r=Math.PI/180,a=Math.sin((la2-la1)*r/2),b=Math.sin((lo2-lo1)*r/2),h=a*a+Math.cos(la1*r)*Math.cos(la2*r)*b*b;return 12742*Math.asin(Math.sqrt(h))}
   function decode(str){var i=0,lat=0,lng=0,out=[],b,s,r;while(i<str.length){s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lat+=(r&1)?~(r>>1):(r>>1);s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lng+=(r&1)?~(r>>1):(r>>1);out.push([lng/1e5,lat/1e5])}return out}
@@ -275,7 +286,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
 
   /* ---------- panel ---------- */
   function pb(p){return '<button type="button" class="pb" data-k="'+p.k+'" data-go="'+p.id+'">'+(p.k==='stay'?p.code+' '+p.short:esc(p.name))+'</button>'}
-  function hm(m){return m<60?m+' min':Math.floor(m/60)+' h '+(m%60?m%60+' min':'')}
+  function hm(m){return m<60?m+' min':Math.floor(m/60)+' h'+(m%60?' '+m%60+' min':'')}
   function dist(a,b){return km(a.lat,a.lon,b.lat,b.lon)}
   DAYS.forEach(function(D){var b=byId[D.base],e=D.end?byId[D.end]:null,far=null,R=0;D.ids.forEach(function(i){var d=dist(b,byId[i]);if(d>R){R=d;far=byId[i]}});D.R=Math.max(R,1);D.far=far;
     D.x=PL.filter(function(p){
@@ -286,11 +297,14 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   function steps(D){
     var r=DAYR[D.d];if(!r||!r.legs||!r.legs.length)return '';var a=byId[r.legs[0].a];
     return '<p class="sub">How to go</p><ol class="steps"><li>Start at '+pb(a)+'</li>'+r.legs.map(function(l){
-      return '<li>'+pb(byId[l.b])+'<span>'+(l.boat?'about '+l.min+' min':(l.km<10?l.km.toFixed(1):Math.round(l.km))+' km, '+l.min+' min')+' · '+legHow(D,l)+'</span></li>'}).join('')+'</ol>';
+      return '<li>'+pb(byId[l.b])+'<span>'+(l.boat?'about '+l.min+' min, IDR 170–215k':(l.km<10?l.km.toFixed(1):Math.round(l.km))+' km, '+l.min+' min')+' · '+legHow(D,l)+'</span></li>'}).join('')+'</ol>';
   }
   function overview(){
     $('card').innerHTML='<h2>Where you are going</h2><p>Bali is one island in Indonesia, between Java to the west and Lombok to the east. You land at Bali\'s only international airport (DPS) in the south.</p><p>You sleep in four places on Bali: <b>1 Canggu</b>, <b>2 Ubud</b>, <b>3 Uluwatu</b> and <b>4 Seminyak</b>. On D8 a fast boat takes you to <b>Nusa Penida</b>, a separate island, and back.</p><p>Bali has no second airport. The nearest others are on Lombok and Java, a boat or ferry away.</p><p class="hint">Tap a day to see how to go, stop by stop, and the area you can cover from your stay. Scooter shops, other hotels and more to do show up too.</p><div class="plist">'+['air','s1','s2','s3','s4','lop','bwx'].map(function(i){return pb(byId[i])}).join('')+'</div>';
   }
+  var BOATS="<p class=\"sub\">Boats and prices</p><table><thead><tr><th>Boat</th><th class=\"n\">Time</th><th class=\"n\">One way</th></tr></thead><tbody><tr><td><b>Fast boat from Sanur</b> (yours)</td><td class=\"n\">45 min</td><td class=\"n\">IDR 170–215k</td></tr><tr><td>Fast boat from Kusamba</td><td class=\"n\">25–30 min</td><td class=\"n\">IDR 150–212k</td></tr><tr><td>Car ferry from Padang Bai</td><td class=\"n\">about 90 min</td><td class=\"n\">about IDR 120k*</td></tr></tbody></table><ul class=\"facts\"><li><b>Sanur times:</b> first boat out 6:30 am, last boat back 5:00 pm. One operator, Maruti Express, lists boats out at 7:30, 8:00, 9:00 am and 3:00 pm, and back at 12:30, 3:30, 4:00, 4:30 and 5:00 pm.</li><li><b>Car ferry:</b> 10:00 am and 2:00 pm, Sundays 10:00 am only. *The price is for one scooter with two people.</li><li><b>Island fee:</b> IDR 25,000 each, paid at the port.</li><li><b>In PKR:</b> the Sanur boat is about PKR 2,800 to 3,550 one way.</li></ul><p class=\"hint\">From the <a href=\"https://nusapenida.org/how-to-get-to-nusa-penida-from-bali/\" target=\"_blank\" rel=\"noopener\">nusapenida.org guide</a>, last checked 1 September 2026. Confirm when you book.</p>";
+  function selDays(){return DS.map(function(i){return DAYS[i]})}
+  function modeTag(D){return D.mode==='scooter'?'Scooter or Grab day':D.d==='D2'||D.d==='D10'?'Taxi or Grab day':'Driver day'}
   function showPlace(p){
     var h='<h2>'+(p.k==='stay'?p.code+' · '+p.short+': ':'')+esc(p.name)+'</h2><div class="tags"><span class="tag">'+KT[p.k]+'</span>'+(p.area?'<span class="tag">'+esc(p.area)+'</span>':'')+(p.day?'<span class="tag">'+esc(p.day)+'</span>':'')+(p.approx?'<span class="tag">Area pin</span>':'')+'</div>';
     if(p.price)h+='<p class="price">'+esc(p.price)+'</p>';
@@ -299,8 +313,9 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     if(p.k==='rent')h+='<p class="hint">About '+p.km.toFixed(1)+' km from your '+byId[p.near].short+' stay'+(byId[p.near].approx?' area':'')+'.'+(p.hours?' Hours on the map: '+esc(p.hours)+'.':'')+' Scooters cost about IDR 60,000 to 100,000 a day.</p>';
     if(p.k==='stay'||p.k==='club'||p.k==='sight'||p.k==='hotel'||p.k==='act')h+='<p class="hint">About '+Math.round(km(p.lat,p.lon,DPS[1],DPS[0]))+' km from the airport in a straight line.</p>';
     if(p.how)h+='<p class="sub">How to go</p><ol class="steps">'+p.how.map(function(s){return '<li>'+esc(s)+'</li>'}).join('')+'</ol>';
+    if(p.id==='i-penida'||p.id==='sanur'||p.id==='pport'||p.k==='port')h+=BOATS;
     if(p.id==='i-penida')h+='<p class="sub">Hotels on the island</p><div class="plist">'+PL.filter(function(x){return x.near==='pen'}).map(pb).join('')+'</div><p class="hint">Also rated 9 or more on Booking.com, not pinned here: La Roja Bungalows (about USD 31), Pooja Ocean View Cottage (about USD 17) and Alma Nusa Penida (about USD 27). A night here would replace one Seminyak night.</p>';
-    h+='<div class="links">'+(day!==null?'<button type="button" class="pb" data-back="1">Back to '+DAYS[day].d+'</button>':'')+'<button type="button" class="pb" data-fly="'+p.id+'">Zoom here</button>';
+    h+='<div class="links">'+(DS.length?'<button type="button" class="pb" data-back="1">Back to '+(DS.length===1?DAYS[DS[0]].d:'your days')+'</button>':'')+'<button type="button" class="pb" data-fly="'+p.id+'">Zoom here</button>';
     if(!p.nog||p.k==='oair')h+='<a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((p.q||p.name)+' Bali')+'" target="_blank" rel="noopener">Open in Google Maps</a>';
     if(p.k==='stay'||p.k==='hotel')h+='<a href="https://www.booking.com/searchresults.html?ss='+encodeURIComponent(p.q||(p.name+' Bali'))+'" target="_blank" rel="noopener">Check dates</a>';
     h+='</div>'+(p.nog?'':'<div id="gbox"></div>');
@@ -308,84 +323,119 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   }
   function showDay(D){
     var b=byId[D.base],e=D.end?byId[D.end]:null,r=DAYR[D.d],grp=function(k){return D.x.filter(function(i){return byId[i].k===k}).map(function(i){return pb(byId[i])}).join('')},sc=grp('rent'),ho=grp('hotel'),ac=grp('act');
-    var h='<h2>'+D.d+' · '+esc(D.t)+'</h2><div class="tags"><span class="tag">'+(e?'Move: '+b.short+' to '+e.short:'Base: '+b.code+' '+b.short)+'</span><span class="tag">'+(D.mode==='scooter'?'Scooter or Grab day':'Driver day')+'</span></div><ul class="facts">';
+    var h='<h2>'+D.d+' · '+esc(D.t)+'</h2><div class="tags"><span class="tag">'+(e?'Move: '+b.short+' to '+e.short:'Base: '+b.code+' '+b.short)+'</span><span class="tag">'+modeTag(D)+'</span></div><ul class="facts">';
     if(r)h+='<li><b>On the road:</b> about '+Math.round(r.km)+' km and '+hm(r.min)+' of driving on empty roads'+(D.d==='D8'?', plus two boat rides of about 45 minutes':'')+'. Bali traffic adds a lot.</li>';
     h+='<li><b>Getting around:</b> '+esc(D.how)+'</li>';
+    if(D.d==='D8')h+='<li><b>Boat:</b> IDR 170,000 to 215,000 each way, plus a IDR 25,000 island fee. First boat out 6:30 am, last boat back 5:00 pm.</li>';
+    h+='<li><b>Ride apps:</b> there is no Uber in Bali. Use Grab or Gojek'+(D.mode==='scooter'?', or rent a scooter for about IDR 60,000 to 100,000 a day':' for short evening trips')+'.</li>';
     if(!e&&D.far&&D.far!==b)h+='<li><b>Furthest stop:</b> '+esc(D.far.name)+', about '+Math.round(D.R)+' km from your stay, '+(D.R>SCOOT?'outside':'inside')+' the scooter circle.</li>';
     h+='</ul>'+steps(D);
-    h+='<div class="key"><span style="--sw:#FFC94D">Scooter or Grab range, '+SCOOT+' km around your stay</span><span style="--sw:#3DE0FF">Today\'s road</span>'+(D.d==='D8'?'<span class="dash" style="--sw:#8FA8AD">Boat</span>':'')+'</div>';
+    h+='<div class="key"><span style="--sw:#FFC94D">Scooter or Grab range, '+SCOOT+' km around your stay</span><span style="--sw:'+DC[DAYS.indexOf(D)]+'">Today\'s road</span>'+(D.d==='D8'?'<span class="dash" style="--sw:#8FA8AD">Boat</span>':'')+'</div>';
     if(D.d==='D8')h+='<p class="note"><b>Overnight option:</b> you can sleep on Nusa Penida tonight and take a morning boat back. That gives time for the east side, like Diamond Beach. It would replace one Seminyak night.</p>';
-    if(ac)h+='<p class="sub">More to do nearby</p><div class="plist">'+ac+'</div>';
+    if(ac)h+='<p class="sub">What else you can do nearby</p><div class="plist">'+ac+'</div>';
     if(sc)h+='<p class="sub">Scooter rental near your stay</p><div class="plist">'+sc+'</div>';
     if(ho)h+='<p class="sub">'+(D.d==='D8'?'Hotels on Nusa Penida and near your stays':'Other hotels near your stay')+'</p><div class="plist">'+ho+'</div>';
-    $('card').innerHTML=h+'<p class="hint">Tap the day again to see everything.</p>';
+    $('card').innerHTML=h+'<p class="hint">Tap another day to add it, or tap this day again to clear it.</p>';
+  }
+  function showDays(){
+    var Ds=selDays();if(Ds.length===1){showDay(Ds[0]);return}
+    var kmT=0,minT=0,sc=[],dr=[],seen={},uni=function(k){var o=[];Ds.forEach(function(D){D.x.forEach(function(i){if(byId[i].k===k&&!seen[i]){seen[i]=1;o.push(pb(byId[i]))}})});return o.join('')};
+    Ds.forEach(function(D){var r=DAYR[D.d];if(r){kmT+=r.km;minT+=r.min}(D.mode==='scooter'?sc:dr).push(D.d)});
+    var h='<h2>'+Ds.length+' days: '+Ds.map(function(D){return D.d}).join(', ')+'</h2><ul class="facts">';
+    h+='<li><b>On the road:</b> about '+Math.round(kmT)+' km and '+hm(minT)+' of driving on empty roads in total.</li>';
+    if(sc.length)h+='<li><b>Scooter or Grab:</b> '+sc.join(', ')+'. Every stop is close to your stay. A scooter is about IDR 60,000 to 100,000 a day.</li>';
+    if(dr.length)h+='<li><b>Driver or taxi:</b> '+dr.join(', ')+'. These are long or moving days, so book the car the day before.</li>';
+    h+='<li><b>Ride apps:</b> there is no Uber in Bali. Use Grab or Gojek.</li></ul>';
+    Ds.forEach(function(D){var r=DAYR[D.d],i=DAYS.indexOf(D);
+      h+='<div class="dblk" style="--dc:'+DC[i]+'"><button type="button" class="dttl" data-only="'+i+'">'+D.d+' · '+esc(D.t)+'</button><p class="hint">'+modeTag(D)+(r?' · '+Math.round(r.km)+' km · '+hm(r.min):'')+(D.d==='D8'?' · plus boats':'')+'</p><div class="plist">'+D.ids.map(function(x){return pb(byId[x])}).join('')+'</div></div>'});
+    var ac=uni('act'),rn=uni('rent'),ho=uni('hotel');
+    if(ac)h+='<p class="sub">What else you can do on these days</p><div class="plist">'+ac+'</div>';
+    if(rn)h+='<p class="sub">Scooter rental near these stays</p><div class="plist">'+rn+'</div>';
+    if(ho)h+='<p class="sub">Other hotels near these stays</p><div class="plist">'+ho+'</div>';
+    $('card').innerHTML=h+'<p class="hint">Each day has its own line colour on the map. Tap a day title to open only that day.</p>';
   }
   function ring(c,r,n){var o=[],la=c[1]*Math.PI/180;for(var i=0;i<=n;i++){var a=i/n*2*Math.PI;o.push([c[0]+r/(111.32*Math.cos(la))*Math.sin(a),c[1]+r/110.574*Math.cos(a)])}return o}
   function drawDay(move){
     if(!map||!map.getSource('reach'))return;
-    var E={type:'FeatureCollection',features:[]},on=day!==null;
+    var E={type:'FeatureCollection',features:[]},Ds=selDays(),on=Ds.length>0;
     map.setPaintProperty('routes','line-opacity',on?0.25:1);map.setPaintProperty('routes-case','line-opacity',on?0.2:0.7);
-    RLon=[false,false];
+    RLon=[false,false,false,false];
     if(!on){['reach','dayroute'].forEach(function(s){map.getSource(s).setData(E)});return}
-    var D=DAYS[day],r=DAYR[D.d],cs=[byId[D.base]].concat(D.end?[byId[D.end]]:[]),lines=(r?r.g:[]).map(decode),pts=[];
+    var cs=[],feats=[],pts=[];
+    Ds.forEach(function(D){
+      [D.base,D.end].forEach(function(s){if(s&&cs.indexOf(byId[s])<0)cs.push(byId[s])});
+      var r=DAYR[D.d],c=DC[DAYS.indexOf(D)];if(r&&!r.dc)r.dc=r.g.map(decode);
+      (r?r.dc:[]).forEach(function(co){feats.push({type:'Feature',properties:{c:c},geometry:{type:'LineString',coordinates:co}});if(move)pts=pts.concat(co)});
+      if(move)D.ids.forEach(function(i){pts.push([byId[i].lon,byId[i].lat])});
+    });
     map.getSource('reach').setData({type:'FeatureCollection',features:cs.map(function(p){return {type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:[ring([p.lon,p.lat],SCOOT,96)]}}})});
-    map.getSource('dayroute').setData({type:'FeatureCollection',features:lines.map(function(c){return {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:c}}})});
-    cs.forEach(function(p,i){RLon[i]=true;RL[i].setLngLat([p.lon,p.lat+SCOOT/110.574]);RL[i].getElement().textContent=(cs.length>1?(i?'Tonight · ':'Morning · '):'')+p.short+': scooter or Grab range, '+SCOOT+' km'});
+    map.getSource('dayroute').setData({type:'FeatureCollection',features:feats});
+    var one=Ds.length===1&&!!Ds[0].end;
+    cs.forEach(function(p,i){if(i>3)return;RLon[i]=true;RL[i].setLngLat([p.lon,p.lat+SCOOT/110.574]);RL[i].getElement().textContent=(one?(i?'Tonight · ':'Morning · '):'')+p.short+': scooter or Grab range, '+SCOOT+' km'});
     if(move){
-      lines.forEach(function(c){pts=pts.concat(c)});D.ids.forEach(function(i){pts.push([byId[i].lon,byId[i].lat])});
       cs.forEach(function(p){pts=pts.concat(ring([p.lon,p.lat],SCOOT*1.15,24))});
       var x0=180,y0=90,x1=-180,y1=-90;pts.forEach(function(p){if(p[0]<x0)x0=p[0];if(p[0]>x1)x1=p[0];if(p[1]<y0)y0=p[1];if(p[1]>y1)y1=p[1]});
       var mx=(x1-x0)*0.05,my=(y1-y0)*0.05;
-      map.fitBounds([[x0-mx,y0-my],[x1+mx,y1+my]],{padding:{top:70,bottom:60,left:50,right:50},pitch:terrainOn?30:0,bearing:0,duration:2200,maxZoom:13.5});
+      map.fitBounds([[x0-mx,y0-my],[x1+mx,y1+my]],{padding:{top:70,bottom:60,left:50,right:50},pitch:terrainOn?30:0,bearing:0,duration:Ds.length>1?1100:1800,maxZoom:13.5});
     }
   }
-  function mini(){var m=$('mini');if(!sel&&day!==null){var D=DAYS[day];m.hidden=false;m.innerHTML='<b>'+D.d+' · '+esc(D.t)+'</b>'+(DAYR[D.d]?'About '+Math.round(DAYR[D.d].km)+' km on the road · ':'')+(D.mode==='scooter'?'scooter or Grab day':'driver day')+' · tap for how to go';return}if(!sel){m.hidden=true;return}m.hidden=false;m.innerHTML='<b>'+esc(sel.name)+'</b>'+esc(sel.price||sel.area||KT[sel.k])+' · tap for details'}
+  function mini(){
+    var m=$('mini'),Ds=selDays();
+    if(!sel&&Ds.length===1){var D=Ds[0];m.hidden=false;m.innerHTML='<b>'+D.d+' · '+esc(D.t)+'</b>'+(DAYR[D.d]?'About '+Math.round(DAYR[D.d].km)+' km on the road · ':'')+modeTag(D).toLowerCase()+' · tap for how to go';return}
+    if(!sel&&Ds.length>1){var k=0;Ds.forEach(function(D){if(DAYR[D.d])k+=DAYR[D.d].km});m.hidden=false;m.innerHTML='<b>'+Ds.length+' days: '+Ds.map(function(D){return D.d}).join(', ')+'</b>About '+Math.round(k)+' km on the road · tap for the plan';return}
+    if(!sel){m.hidden=true;return}m.hidden=false;m.innerHTML='<b>'+esc(sel.name)+'</b>'+esc(sel.price||sel.area||KT[sel.k])+' · tap for details';
+  }
   function select(id,go){
     sel=byId[id]||null;if(!sel)return;showPlace(sel);mini();refresh();
     if(go)fly(sel.v||{c:[sel.lon,sel.lat],z:sel.k==='sight'?13.5:14.5});
   }
-  function setDay(i){
-    day=(day===i?null:i);
-    Array.prototype.forEach.call($('daybar').children,function(b,n){b.setAttribute('aria-pressed',String(n===day))});
-    if(day!==null){sel=null;showDay(DAYS[day]);if(mode==='g3')fly(DAYS[day].v)}else if(sel)showPlace(sel);else overview();
-    mini();
-    drawDay(true);refresh();
+  function applyDays(move){
+    Array.prototype.forEach.call($('daybar').querySelectorAll('[data-d]'),function(b){b.setAttribute('aria-pressed',String(DS.indexOf(+b.dataset.d)>=0))});
+    $('dayclr').hidden=!DS.length;
+    if(DS.length){sel=null;showDays();if(mode==='g3')fly(DAYS[DS[DS.length-1]].v)}else if(sel)showPlace(sel);else overview();
+    mini();drawDay(move);refresh();
   }
+  function setDay(i){var k=DS.indexOf(i);if(k>=0)DS.splice(k,1);else{DS.push(i);DS.sort(function(a,b){return a-b})}applyDays(true)}
   $('viewbar').innerHTML=VIEWS.map(function(v,i){return '<button type="button" class="chip" data-v="'+i+'">'+v.n+'</button>'}).join('');
   $('layerbar').innerHTML=[['stay','Stays'],['club','Clubs'],['sight','Sights'],['act','More to do'],['hotel','Other hotels'],['rent','Scooter rental'],['ring','Scooter circle'],['route','Routes']].map(function(x){return '<button type="button" class="chip" aria-pressed="true" data-l="'+x[0]+'">'+x[1]+'</button>'}).join('');
-  $('daybar').innerHTML=DAYS.map(function(D,i){return '<button type="button" class="chip" aria-pressed="false" data-d="'+i+'" title="'+esc(D.t)+'">'+D.d+'</button>'}).join('');
-  $('plist').innerHTML=[['Airports and stays',['air','oair','stay']],['Other hotel options',['hotel']],['Scooter rental',['rent']],['Clubs',['club']],['Sights',['sight']],['More to do',['act']],['Islands',['isl']]].map(function(g){return '<h3>'+g[0]+'</h3>'+PL.filter(function(p){return g[1].indexOf(p.k)>=0}).map(pb).join('')}).join('');
+  $('daybar').innerHTML=DAYS.map(function(D,i){return '<button type="button" class="chip" aria-pressed="false" data-d="'+i+'" title="'+esc(D.t)+'">'+D.d+'</button>'}).join('')+'<button type="button" class="chip" data-all="1">All days</button><button type="button" class="chip" id="dayclr" data-clr="1" hidden>Clear</button>';
+  $('plist').innerHTML=[['Airports and stays',['air','oair','stay']],['Other hotel options',['hotel']],['Scooter rental',['rent']],['Clubs',['club']],['Sights',['sight']],['More to do',['act']],['Boat ports',['port']],['Islands',['isl']]].map(function(g){return '<h3>'+g[0]+'</h3>'+PL.filter(function(p){return g[1].indexOf(p.k)>=0}).map(pb).join('')}).join('');
   var tk=0,tm=0;
   $('legs').innerHTML=ROUTES.map(function(r){tk+=r.km||0;tm+=r.min||0;return '<tr><td>'+LEGN[r.a]+' to '+LEGN[r.b]+'</td><td class="n">'+(r.km?r.km.toFixed(0)+' km':'n/a')+'</td><td class="n">'+(r.min?r.min+' min':'n/a')+'</td></tr>'}).join('')+(ROUTES.length?'<tr><td><b>All legs</b></td><td class="n"><b>'+tk.toFixed(0)+' km</b></td><td class="n"><b>'+tm+' min</b></td></tr>':'<tr><td colspan="3">No route data.</td></tr>');
   $('viewbar').addEventListener('click',function(e){var b=e.target.closest('button');if(b)fly(VIEWS[+b.dataset.v])});
   $('layerbar').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var k=b.dataset.l;L[k]=!L[k];b.setAttribute('aria-pressed',String(L[k]));refresh()});
-  $('daybar').addEventListener('click',function(e){var b=e.target.closest('button');if(b){setDay(+b.dataset.d);if(window.innerWidth<=860)$('mapwrap').scrollIntoView({block:'start',behavior:'smooth'})}});
+  $('daybar').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    if(b.dataset.all){DS=DAYS.map(function(D,i){return i});applyDays(true)}else if(b.dataset.clr){DS=[];applyDays(false);fly(VIEWS.filter(function(v){return v.id==='trip'})[0])}else setDay(+b.dataset.d);
+    if(window.innerWidth<=860)$('mapwrap').scrollIntoView({block:'start',behavior:'smooth'})});
   $('plist').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b){select(b.dataset.go,true);$('mapwrap').scrollIntoView({block:'nearest'})}});
-  $('card').addEventListener('click',function(e){var b=e.target.closest('[data-back]');if(b&&day!==null){sel=null;showDay(DAYS[day]);mini();refresh();return}b=e.target.closest('[data-go]');if(b){select(b.dataset.go,false);return}b=e.target.closest('[data-fly]');if(b){select(b.dataset.fly,true);$('mapwrap').scrollIntoView({block:'nearest'})}});
+  $('card').addEventListener('click',function(e){var b=e.target.closest('[data-back]');if(b&&DS.length){sel=null;showDays();mini();refresh();return}b=e.target.closest('[data-only]');if(b){DS=[+b.dataset.only];applyDays(true);return}b=e.target.closest('[data-go]');if(b){select(b.dataset.go,false);return}b=e.target.closest('[data-fly]');if(b){select(b.dataset.fly,true);$('mapwrap').scrollIntoView({block:'nearest'})}});
   $('mini').addEventListener('click',function(){$('card').scrollIntoView({block:'start',behavior:'smooth'})});
 
   /* ---------- map (MapLibre) ---------- */
   function tierOf(z){return z<6?0:z<8.3?1:z<11.3?2:z<12.6?3:4}
   function refresh(){
-    var ids=day!==null?DAYS[day].ids.concat(DAYS[day].x):null;
+    var ids=null;if(DS.length){ids=[];DS.forEach(function(i){ids=ids.concat(DAYS[i].ids,DAYS[i].x)})}
     PL.forEach(function(p){
       if(!p.el)return;var inDay=ids?ids.indexOf(p.id)>=0:false,isSel=sel===p,show,lab=true,k=p.k;
       if(k==='city')show=tier===0;
       else if(k==='air')show=true;
       else if(k==='oair')show=tier<=2;
       else if(k==='isl')show=tier===1||(p.id==='i-penida'&&tier===2);
+      else if(k==='port'){show=L.route&&tier>=2;lab=tier>=3}
       else if(k==='stay')show=L.stay&&tier>=2;
-      else if(k==='sight'){show=L.sight&&tier>=2;lab=tier>=4||inDay}
+      else if(k==='sight'){show=L.sight&&tier>=2;lab=tier>=4||(inDay&&(tier>=3||DS.length===1))}
       else if(k==='act'){show=L.act&&tier>=2;lab=tier>=4}
       else if(k==='hotel'||k==='rent'){show=L[k]&&(tier>=3||inDay);lab=tier>=4}
-      else{show=L.club&&(tier>=3||inDay);lab=tier>=3||inDay}
+      else{show=L.club&&(tier>=3||inDay);lab=tier>=3||(inDay&&DS.length===1)}
       if(isSel)show=true;
       p.el.style.display=show?'':'none';p.el.classList.toggle('nolb',!lab&&!isSel);p.el.classList.toggle('sel',isSel);
       p.el.classList.toggle('dim',!!ids&&!inDay&&!isSel&&(k==='stay'||k==='club'||k==='sight'||k==='act'||k==='hotel'||k==='rent'));
       p.el.style.zIndex=isSel?9:(k==='stay'||k==='air'?5:k==='club'?3:k==='sight'?2:1);
     });
     if(map&&map.getLayer('dayroute')){var v=L.route?'visible':'none',w=L.ring?'visible':'none';['routes','routes-case','boat','dayroute','dayroute-case'].forEach(function(l){map.setLayoutProperty(l,'visibility',v)});['reach-fill','reach-line'].forEach(function(l){map.setLayoutProperty(l,'visibility',w)})}
-    RL.forEach(function(m,i){m.getElement().style.display=(day!==null&&L.ring&&RLon[i])?'':'none'});
+    RL.forEach(function(m,i){m.getElement().style.display=(DS.length&&L.ring&&RLon[i]&&(DS.length===1||tier>=3||window.innerWidth>860))?'':'none'});
+    var d8=DS.some(function(i){return DAYS[i].d==='D8'}),bx=tier>=3||(d8&&window.innerWidth>860)||(!!sel&&(sel.id==='i-penida'||sel.id==='sanur'||sel.id==='pport'||sel.k==='port'));
+    BL.forEach(function(m,i){m.getElement().style.display=(L.route&&tier>=2&&(i===0||bx))?'':'none'});
   }
   function fly(v){
     if(mode==='g3'&&G3){g3Fly(v);return}
@@ -422,22 +472,28 @@ button.pb[data-k="air"]{--kc:var(--ink)}
       map.addSource('routes',{type:'geojson',data:{type:'FeatureCollection',features:feats}});
       map.addLayer({id:'routes-case',type:'line',source:'routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#0D2830','line-width':6.5,'line-opacity':0.7}});
       map.addLayer({id:'routes',type:'line',source:'routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#FFC94D','line-width':3.5}});
-      map.addSource('boat',{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[[byId.sanur.lon,byId.sanur.lat],[115.38,-8.672],[byId.pport.lon,byId.pport.lat]]}}});
-      map.addLayer({id:'boat',type:'line',source:'boat',paint:{'line-color':'#FFFFFF','line-width':3,'line-dasharray':[1,2]}});
+      map.addSource('boat',{type:'geojson',data:{type:'FeatureCollection',features:[
+        {type:'Feature',properties:{alt:false},geometry:{type:'LineString',coordinates:[[byId.sanur.lon,byId.sanur.lat],[115.38,-8.672],[byId.pport.lon,byId.pport.lat]]}},
+        {type:'Feature',properties:{alt:true},geometry:{type:'LineString',coordinates:[[byId.kus.lon,byId.kus.lat-0.006],[115.47,-8.63],[byId.pport.lon,byId.pport.lat]]}},
+        {type:'Feature',properties:{alt:true},geometry:{type:'LineString',coordinates:[[byId.pbai.lon,byId.pbai.lat],[115.545,-8.6],[byId.samp.lon,byId.samp.lat]]}}]}});
+      map.addLayer({id:'boat',type:'line',source:'boat',paint:{'line-color':'#FFFFFF','line-width':['case',['get','alt'],2,3],'line-opacity':['case',['get','alt'],0.55,1],'line-dasharray':[1,2]}});
+      [[[115.375,-8.672],'Fast boat · 45 min · IDR 170–215k'],[[115.462,-8.612],'Fast boat · 30 min · IDR 150–212k'],[[115.538,-8.592],'Car ferry · 90 min · 10 am, 2 pm']].forEach(function(x){
+        var d=document.createElement('button');d.type='button';d.className='rl boat';d.textContent=x[1];d.style.display='none';d.addEventListener('click',function(e){e.stopPropagation();select('i-penida',false)});
+        BL.push(new maplibregl.Marker({element:d,anchor:'center'}).setLngLat(x[0]).addTo(map))});
       var E0={type:'FeatureCollection',features:[]};
       map.addSource('reach',{type:'geojson',data:E0});map.addSource('scoot',{type:'geojson',data:E0});map.addSource('dayroute',{type:'geojson',data:E0});
       map.addLayer({id:'reach-fill',type:'fill',source:'reach',paint:{'fill-color':'#FFC94D','fill-opacity':0.16}},'routes-case');
       map.addLayer({id:'reach-line',type:'line',source:'reach',paint:{'line-color':'#FFC94D','line-width':2.5}},'routes-case');
       map.addLayer({id:'scoot-line',type:'line',source:'scoot',paint:{'line-color':'#FF8DB8','line-width':2.5,'line-dasharray':[2,2]}},'routes-case');
       map.addLayer({id:'dayroute-case',type:'line',source:'dayroute',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#0D2830','line-width':7.5,'line-opacity':0.75}});
-      map.addLayer({id:'dayroute',type:'line',source:'dayroute',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#3DE0FF','line-width':4}});
-      ['reach','scoot'].forEach(function(c){var d=document.createElement('div');d.className='rl reach';d.style.display='none';RL.push(new maplibregl.Marker({element:d,anchor:'center'}).setLngLat(DPS).addTo(map))});
+      map.addLayer({id:'dayroute',type:'line',source:'dayroute',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':['coalesce',['get','c'],'#3DE0FF'],'line-width':4}});
+      [0,1,2,3].forEach(function(c){var d=document.createElement('div');d.className='rl reach';d.style.display='none';RL.push(new maplibregl.Marker({element:d,anchor:'center'}).setLngLat(DPS).addTo(map))});
       map.addSource('air',{type:'geojson',data:{type:'FeatureCollection',features:[
         {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:arc([byId.khi.lon,byId.khi.lat],DPS,48)}},
         {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:arc(DPS,[byId.isb.lon,byId.isb.lat],48)}}]}});
       map.addLayer({id:'air',type:'line',source:'air',maxzoom:7.5,paint:{'line-color':'#FFFFFF','line-width':2.5,'line-dasharray':[2,2]}});
-      var hd=/^#d(\d+)$/i.exec(location.hash);
-      if(hd){for(var q=0;q<DAYS.length;q++)if(DAYS[q].d==='D'+hd[1]){setDay(q);break}}
+      var hd=location.hash.slice(1).toLowerCase().split(',');
+      if(/^d\d+$/.test(hd[0])){hd.forEach(function(x){for(var q=0;q<DAYS.length;q++)if(DAYS[q].d.toLowerCase()===x&&DS.indexOf(q)<0)DS.push(q)});DS.sort(function(a,b){return a-b});applyDays(true)}
       drawDay(false);refresh();
     });
     tier=tierOf(map.getZoom());refresh();
