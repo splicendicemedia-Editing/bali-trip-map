@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bali Real Map</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+:root{--bg:#EEF4F3;--surface:#FFFFFF;--surface-2:#E3EDEB;--ink:#0D2830;--muted:#4F656C;--line:#CBDAD7;--accent:#0A7C76;--accent-ink:#FFFFFF;--warn:#9A5B00;--warn-bg:#FFF1D2;
+  --c-stay:#0A7C76;--c-club:#6D4AE8;--c-sight:#C2610C;--c-air:#0D2830;--c-oair:#5B6B73}
+@media (prefers-color-scheme: dark){:root{--bg:#0A1A1F;--surface:#112830;--surface-2:#173540;--ink:#E5F1F0;--muted:#9DB5B8;--line:#24424B;--accent:#3CC7BD;--accent-ink:#06201F;--warn:#F3C463;--warn-bg:#3A2D0E;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{display:grid;grid-template-rows:auto 1fr;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+header h1{font-size:1.15rem;margin:0;font-weight:800;letter-spacing:-.01em}
+header .who{color:var(--muted);font-size:.85rem}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;align-items:center}
+button.chip{font:inherit;font-weight:700;font-size:.86rem;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:999px;white-space:nowrap}
+button.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.chip:focus-visible,.mk:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{display:grid;grid-template-columns:390px 1fr;min-height:0}
+#panel{order:-1;overflow:auto;padding:14px;display:grid;gap:14px;align-content:start;border-right:1px solid var(--line)}
+#mapwrap{position:relative;min-height:0;min-width:0}
+#panel,.card,details{min-width:0}
+#map,#g3{position:absolute;inset:0}
+#g3[hidden],#mini[hidden],#maperr[hidden]{display:none}
+#maperr{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;background:var(--surface-2)}
+#mini{display:none;position:absolute;left:10px;right:10px;bottom:30px;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:.88rem;box-shadow:0 4px 18px rgba(0,0,0,.25);text-align:left;color:var(--ink);font-family:inherit;cursor:pointer}
+#mini b{display:block}
+@media (max-width:860px){
+  html,body{height:auto}
+  body{display:block}
+  main{display:block}
+  #mapwrap{height:58vh;min-height:340px}
+  #panel{border-right:0;overflow:visible}
+  #mini:not([hidden]){display:block}
+}
+.grp{display:grid;gap:6px}
+.eyebrow{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px}
+.card h2{font-size:1.08rem;margin:0;line-height:1.25}
+.card p{margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:5px;background:var(--surface-2);color:var(--muted)}
+.price{font-weight:700}
+.hint{color:var(--muted);font-size:.84rem}
+.links{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-weight:600;font-size:.88rem}
+a{color:var(--accent)}
+.gph{width:100%;max-height:230px;object-fit:cover;border-radius:10px;display:block}
+.note{background:var(--warn-bg);border-left:4px solid var(--warn);padding:10px 12px;border-radius:6px;font-size:.86rem}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+summary{cursor:pointer;font-weight:700}
+details[open] summary{margin-bottom:10px}
+details ol{margin:0 0 10px;padding-left:1.2rem;display:grid;gap:4px;font-size:.88rem}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+input[type=password]{font:inherit;width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.plist{display:flex;flex-wrap:wrap;gap:6px}
+.plist h3{flex-basis:100%;margin:6px 0 0;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+button.pb{font:inherit;font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:5px 11px;border-radius:999px}
+button.pb::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;background:var(--kc,var(--muted))}
+[data-k="stay"]{--kc:var(--c-stay)}[data-k="club"]{--kc:var(--c-club)}[data-k="sight"]{--kc:var(--c-sight)}[data-k="air"]{--kc:var(--c-air)}[data-k="oair"]{--kc:var(--c-oair)}
+/* map pins */
+.mk{background:none;border:0;padding:0;margin:0;cursor:pointer;font:inherit;color:inherit}
+.mk i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--kc);color:#fff;border:2.5px solid #fff;font:800 13px/1 system-ui,sans-serif;font-style:normal;box-shadow:0 1px 6px rgba(0,0,0,.5)}
+.mk[data-k="air"] i,.mk[data-k="oair"] i{border-radius:7px;font-size:9px;width:34px}
+.mk[data-k="club"] i{width:24px;height:24px;font-size:12px}
+.mk[data-k="sight"] i{width:16px;height:16px;border-width:2px}
+.mk[data-k="isl"] i,.mk[data-k="city"] i{display:none}
+.mk .lb{position:absolute;left:calc(100% + 5px);top:50%;transform:translateY(-50%);white-space:nowrap;font:700 12px/1.2 system-ui,sans-serif;padding:3px 8px;border-radius:999px;background:rgba(13,40,48,.9);color:#fff;pointer-events:none}
+.mk[data-k="isl"] .lb,.mk[data-k="city"] .lb{position:static;transform:none;display:block;background:rgba(255,255,255,.94);color:#0D2830;font-size:13px;pointer-events:auto;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+.mk.left .lb{left:auto;right:calc(100% + 5px)}
+.mk.nolb .lb{display:none}
+button.pb[data-k="air"]{--kc:var(--ink)}
+.mk.sel i{outline:3px solid #FFC94D}
+.mk.sel .lb{background:#FFC94D;color:#0D2830;display:block}
+.mk.dim{opacity:.35}
+</style>
+</head>
+<body>
+<header>
+  <h1>Bali Real Map</h1>
+  <span class="who">Daud · Saad · Sufi · April 2027</span>
+  <div class="seg" id="basebar">
+    <button class="chip" type="button" data-base="sat" aria-pressed="true">Satellite</button>
+    <button class="chip" type="button" data-base="osm" aria-pressed="false">Street map</button>
+    <button class="chip" type="button" data-base="g3" aria-pressed="false">Google 3D</button>
+    <button class="chip" type="button" id="terr" aria-pressed="true">3D terrain</button>
+  </div>
+</header>
+<main>
+  <div id="mapwrap">
+    <div id="map" role="application" aria-label="Map of Bali with the trip's airport, stays, clubs and sights"></div>
+    <div id="g3" hidden></div>
+    <div id="maperr" hidden></div>
+    <button type="button" id="mini" hidden></button>
+  </div>
+  <aside id="panel">
+    <div class="grp"><div class="eyebrow">Jump to</div><div class="row" id="viewbar"></div></div>
+    <div class="grp"><div class="eyebrow">Show</div><div class="row" id="layerbar"></div></div>
+    <div class="grp"><div class="eyebrow">Follow a day</div><div class="row" id="daybar"></div></div>
+    <article class="card" id="card" aria-live="polite"></article>
+    <details open><summary>Drives between your stays</summary>
+      <table><thead><tr><th>Leg</th><th class="n">Road</th><th class="n">No traffic</th></tr></thead><tbody id="legs"></tbody></table>
+      <p class="hint">Road distances are real routes from OpenStreetMap data. The times assume empty roads, and Bali traffic usually makes drives much longer.</p>
+    </details>
+    <details><summary>All places</summary><div class="plist" id="plist"></div></details>
+    <details id="gdet"><summary>Google Maps mode (needs your key)</summary>
+      <p class="hint">With your own Google Maps key this page adds Google's 3D view, plus photos, ratings and exact addresses when you tap a place. Google charges each map load and place lookup to your Cloud credits.</p>
+      <ol>
+        <li>Open console.cloud.google.com and pick or create a project with billing on.</li>
+        <li>Enable three APIs: Maps JavaScript API, Places API (New) and Map Tiles API.</li>
+        <li>Go to Credentials, create an API key, and restrict it to those three APIs.</li>
+        <li>Paste the key below. It is saved only in this browser.</li>
+      </ol>
+      <label class="eyebrow" for="gkey">Google Maps API key</label>
+      <input type="password" id="gkey" autocomplete="off" spellcheck="false" placeholder="Paste your key here">
+      <div class="row" style="margin-top:8px"><button class="chip" type="button" id="gsave">Save key</button><button class="chip" type="button" id="gclear">Remove key</button></div>
+      <p class="hint" id="gmsg" role="status"></p>
+    </details>
+    <p class="hint">Pins marked "area pin" show the neighbourhood, not the exact door. Map data: Esri World Imagery, OpenStreetMap contributors, and terrain tiles from Mapzen on AWS.</p>
+  </aside>
+</main>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var ROUTES=[{"a":"air","b":"s1","km":15.7,"min":21,"g":"hekt@sl|}TcDF]}_AwBgBzBi[sByCaVjKsx@fKyq@gQou@u[cMO}dD`cB}OvRc]iDse@pCcCfj@zGjg@J|h@kRpFsJoHeTaBe@`FsSQqDbc@sBrFeFmC"},{"a":"s1","b":"s2","km":31.6,"min":31,"g":"vbzs@akw}T{g@}RwPmPDqLsh@mf@uInIzYw`@rIex@cI}CvEkRix@cQkDq|BpQi}@kTcsAyBydElVyXa]gJkJaZ}|Abc@slAxGszBaHop@gKaIsEr@yHoy@{Qe|Ca@sr@sJ}{A`BiBnXiz@iO"},{"a":"s2","b":"s3","km":53.1,"min":51,"g":"xv|r@kbo~TBcTxnAzNl{GtDlsBpn@rzB`HrlAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEz|A}d@~qDxEtGzhAnoAzwDgHhu@td@lfBnAt{@~w@vUd{A}YflAlVbnClAp]|sA`mEthAbNty@fm@ti@dMbgAor@jU_k@z|@m~@ec@"},{"a":"s3","b":"sanur","km":36.9,"min":37,"g":"l|vt@m~r}TvMhSto@zN~j@{|@nr@kUeMcgAgm@ui@cNuy@a\\yS}hByXyeA}Y?}FsEzAnEuVuZe\\{CuVilCiD}iAoV_}A|Yu}@aWnAcy@}d@ogBdHyu@a_@}w@i@}^wUu~@iWg_@kBmdAuvDqIsm@bXo}@xJ`z@kJda@wPwC_OqHh@"},{"a":"sanur","b":"s4","km":14.5,"min":17,"g":"lh|s@gzn~TrGwBlE~P~MiG`@xKyKh_FcPjA{Ad}@fEpHfc@dQpV~QrD~HxDn`@oC~q@qg@`[wGjLpB``@aI~Uz@zTqDlx@nFr@zGfT`Mn@tChO}Bv@"},{"a":"s4","b":"air","km":13,"min":17,"g":"ls}s@c~y}T|Bw@sDcZzEgN`X~BN}B?}K_WuBVkFvWVpL}VdKwJ|gDucB|Kf@bq@jZdt@rRd{@cLhXwQdAxEeEla@bBzA\\|_AbDG"}];
+  var KT={air:'Your airport',oair:'Other airport',stay:'Your stay',club:'Club',sight:'Sight',isl:'Island',city:'Home'};
+  var DPS=[115.1672,-8.7482];
+  var PL=[
+    {id:'air',k:'air',code:'DPS',name:'Ngurah Rai International Airport (DPS)',label:'Your airport (DPS)',area:'South Bali',lon:115.1672,lat:-8.7482,day:'D2 arrive, D10 leave',q:'Ngurah Rai International Airport',v:{c:[115.16,-8.72],z:12},
+     txt:'The only international airport on Bali. You land here and fly home from here. The arrivals area has the duty-free shop.'},
+    {id:'lop',k:'oair',code:'LOP',name:'Lombok International Airport (LOP)',label:'Lombok airport',area:'Lombok island',lon:116.2767,lat:-8.7573,v:{c:[115.7,-8.7],z:8.3,pitch:0},nog:true,
+     txt:'The nearest airport to the east, on a different island. Getting from it to Bali needs a boat or another flight, so it does not help this trip.'},
+    {id:'bwx',k:'oair',code:'BWX',name:'Banyuwangi Airport (BWX)',label:'Banyuwangi airport',area:'East Java',lon:114.3401,lat:-8.3102,v:{c:[114.8,-8.5],z:8.3,pitch:0},nog:true,
+     txt:'The nearest airport to the west, on Java. Reaching Bali from it needs the ferry across the Bali Strait and a long drive, so it does not help this trip.'},
+    {id:'s1',k:'stay',code:'1',short:'Canggu',name:'Aurum Canggu Villas',area:'Canggu (Berawa)',lon:115.1405,lat:-8.6585,approx:true,day:'Nights 1–2 · D2, D3',v:{c:[115.134,-8.658],z:13.6},
+     price:'From about USD 69 a night (one snapshot, 2 adults)',txt:'Your private-pool villa for the first two nights. Finns and La Brisa are close by. Backup: Villa Water Star in Batu Bolong.'},
+    {id:'s2',k:'stay',code:'2',short:'Ubud',name:'Arjuna Homestay Ubud',area:'Ubud (Jalan Arjuna)',lon:115.26113,lat:-8.50781,day:'Nights 3–4 · D4, D5',v:{c:[115.275,-8.49],z:12.1,pitch:55},
+     price:'From about USD 18 a night (snapshot)',txt:'Triple room with 1 double and 1 twin bed. Your base for the rice terraces, the ATV ride and the 2 am Mt Batur pickup. Backup: Taman Indrakila.'},
+    {id:'s3',k:'stay',code:'3',short:'Uluwatu',name:'Malaka Guest House',area:'Uluwatu (Pecatu, near Bingin)',lon:115.118,lat:-8.806,approx:true,day:'Nights 5–6 · D6, D7',v:{c:[115.12,-8.828],z:12.6,pitch:55},q:'Malaka Guest House Pecatu',
+     price:'From about USD 15 a night (snapshot, 2 adults)',txt:'The cheapest good-score stay found, near the Bingin and Padang Padang beaches. Check that a third guest fits. Backup: Suites5 Hotel.'},
+    {id:'s4',k:'stay',code:'4',short:'Seminyak',name:'Villa Samudra Petitenget',area:'Seminyak (Petitenget)',lon:115.1535,lat:-8.6765,approx:true,day:'Nights 7–8 · D8, D9',v:{c:[115.156,-8.682],z:14.2},q:'Villa Samudra Petitenget Seminyak',
+     price:'No villa price found. The budget uses an estimate.',txt:'Two-bedroom pool villa rated 9.8 on Vrbo. Potato Head is about a 16-minute walk. Backup: Sunset Rooftop 2BR Pool Villa.'},
+    {id:'finns',k:'club',code:'♪',name:'Finns Beach Club',area:'Canggu (Berawa)',lon:115.13942,lat:-8.66701,day:'D3',price:'Free general entry. Premium seats from about IDR 2.5M.',txt:'Daytime pool and beach party. Take the free seating and split any table spend three ways.'},
+    {id:'brisa',k:'club',code:'♪',name:'La Brisa',area:'Canggu (Echo Beach)',lon:115.12481,lat:-8.65458,day:'D3',price:'Price not found. Check on the day.',txt:'Sunset beach club, often listed alongside Finns.'},
+    {id:'mex',k:'club',code:'♪',name:'Motel Mexicola',area:'Seminyak',lon:115.15384,lat:-8.68216,price:'Free entry. No dress code listed.',txt:'Loud and colourful, an easy first night out.'},
+    {id:'potato',k:'club',code:'♪',name:'Potato Head Beach Club',area:'Seminyak (Petitenget)',lon:115.14996,lat:-8.67941,day:'D9',price:'Minimum spend about IDR 2M per table',txt:'The big-name beach club for the last night.'},
+    {id:'kudeta',k:'club',code:'♪',name:'Ku De Ta',area:'Seminyak',lon:115.15451,lat:-8.68715,day:'D9',price:'Daybeds about IDR 2M to 2.4M, for up to 4',txt:'Premium sunset daybeds on the beach.'},
+    {id:'favela',k:'club',code:'♪',name:'La Favela',area:'Seminyak',lon:115.16288,lat:-8.68387,day:'D9',price:'Entry on enquiry. Smart casual.',txt:'Late-night club. Dress properly or you may be turned away.'},
+    {id:'savaya',k:'club',code:'♪',name:'Savaya',area:'Uluwatu (Pecatu cliffs)',lon:115.14065,lat:-8.84641,day:'D7',q:'Savaya Bali',price:'About IDR 300k on weekends, 125k on weekdays',txt:'Clifftop pool club with international DJs. The price is from one guide, so check it.'},
+    {id:'sundays',k:'club',code:'♪',name:'Sundays Beach Club',area:'Uluwatu (Ungasan)',lon:115.15152,lat:-8.84747,day:'D7',price:'About IDR 800k entry with IDR 500k food and drink credit',txt:'Beach club below the cliffs, good for the D7 sunset.'},
+    {id:'singlefin',k:'club',code:'♪',name:'Single Fin',area:'Uluwatu (Suluban)',lon:115.08892,lat:-8.81501,day:'D7',price:'Price not found',txt:'Cliff bar above the surf break, a classic sunset spot.'},
+    {id:'tanah',k:'sight',name:'Tanah Lot Temple',area:'Tabanan coast',lon:115.08688,lat:-8.62122,day:'D3',txt:'Sea temple and the sunset photo stop.'},
+    {id:'tegen',k:'sight',name:'Tegenungan Waterfall',area:'Near Ubud',lon:115.2907,lat:-8.57523,day:'D4',txt:'Waterfall stop on the drive from Canggu to Ubud.'},
+    {id:'tegal',k:'sight',name:'Tegalalang Rice Terraces',area:'North of Ubud',lon:115.27988,lat:-8.42855,day:'D4',txt:'Rice terraces with swings and photo spots.'},
+    {id:'batur',k:'sight',name:'Mt Batur',area:'Kintamani',lon:115.37796,lat:-8.23942,day:'D5',v:{c:[115.378,-8.26],z:11.6,pitch:68,bearing:20},txt:'Sunrise trek. Pickup about 2 am, roughly 2 hours up with a guide, breakfast at the top.'},
+    {id:'tirta',k:'sight',name:'Tirta Empul Temple',area:'Tampaksiring',lon:115.31621,lat:-8.41436,day:'D5',txt:'Holy-spring temple. A sarong is required, and bathing is optional.'},
+    {id:'raft',k:'sight',name:'Ayung River rafting',area:'West of Ubud',lon:115.245,lat:-8.47,approx:true,day:'D6',q:'Ayung River Rafting Ubud',txt:'About 2 hours of rafting with life jackets and a guide. Start points differ by operator. Tell the guide who cannot swim.'},
+    {id:'ulutemple',k:'sight',name:'Uluwatu Temple',area:'Uluwatu',lon:115.08434,lat:-8.82937,day:'D6',txt:'Cliff temple with the 6 pm Kecak fire dance. Monkeys steal sunglasses and phones.'},
+    {id:'padang',k:'sight',name:'Padang Padang Beach',area:'Uluwatu',lon:115.10364,lat:-8.81122,day:'D7',txt:'Small cove beach. Stay in the shallows if you cannot swim.'},
+    {id:'sanur',k:'sight',name:'Sanur Harbour',area:'Sanur',lon:115.26088,lat:-8.66962,day:'D8',q:'Pelabuhan Sanur',txt:'Fast boats to Nusa Penida leave from here, about 45 minutes each way.'},
+    {id:'pport',k:'sight',name:'Nusa Penida harbour (Toyapakeh)',area:'Nusa Penida',lon:115.49147,lat:-8.67811,day:'D8',nog:true,txt:'Where the fast boat lands on Nusa Penida. Your car tour of the west side starts here.'},
+    {id:'crystal',k:'sight',name:'Crystal Bay',area:'Nusa Penida',lon:115.45774,lat:-8.71507,day:'D8',q:'Crystal Bay Nusa Penida',txt:'Beach stop on the west-side island tour.'},
+    {id:'keling',k:'sight',name:'Kelingking Beach viewpoint',area:'Nusa Penida',lon:115.47313,lat:-8.75126,day:'D8',txt:'The T-Rex cliff. Photos from the top only, do not climb down.'},
+    {id:'sukawati',k:'sight',name:'Sukawati Art Market',area:'Gianyar',lon:115.28244,lat:-8.59648,day:'D9',txt:'Souvenir shopping. Go early and counter the first price at about half.'},
+    {id:'jimbaran',k:'sight',name:'Jimbaran Beach seafood',area:'Jimbaran',lon:115.16392,lat:-8.78089,day:'D9',txt:'Grilled seafood dinner on the sand.'},
+    {id:'i-bali',k:'isl',name:'Bali',label:'Bali · your island',lon:115.03,lat:-8.33,nog:true,v:{c:[115.2,-8.45],z:8.9,pitch:0},txt:'The island you stay on, in Indonesia. It is about 145 km from west to east. All four of your stays are in the south and centre.'},
+    {id:'i-java',k:'isl',name:'Java',label:'Java',lon:114.1,lat:-8.05,nog:true,txt:'The next island to the west, across the narrow Bali Strait. You do not go there on this trip.'},
+    {id:'i-lombok',k:'isl',name:'Lombok',label:'Lombok',lon:116.3,lat:-8.52,nog:true,txt:'The next island to the east. You do not go there on this trip.'},
+    {id:'i-penida',k:'isl',name:'Nusa Penida',label:'Nusa Penida · day trip',lon:115.56,lat:-8.74,nog:true,v:{c:[115.5,-8.73],z:11.4},txt:'A separate small island south-east of Bali. You go by fast boat from Sanur on D8 and come back the same day.'},
+    {id:'khi',k:'city',name:'Karachi (KHI)',label:'Karachi · fly out',lon:67.1608,lat:24.9065,nog:true,txt:'You fly out from Karachi. There are no direct flights to Bali, so expect one stop and about 12 to 18 hours in total.'},
+    {id:'isb',k:'city',name:'Islamabad (ISB)',label:'Islamabad · fly home',lon:72.8258,lat:33.549,nog:true,txt:'You fly home to Islamabad, again with one stop.'}
+  ];
+  var VIEWS=[
+    {id:'journey',n:'From Pakistan',b:[[62,-13],[119,37]]},
+    {id:'islands',n:'Bali and its neighbours',c:[115.25,-8.5],z:7.6,pitch:0},
+    {id:'trip',n:'Your trip',c:[115.28,-8.62],z:9.7,pitch:50},
+    {id:'canggu',n:'Canggu',c:[115.134,-8.658],z:13.6},
+    {id:'seminyak',n:'Seminyak',c:[115.156,-8.682],z:14.2},
+    {id:'uluwatu',n:'Uluwatu',c:[115.12,-8.828],z:12.6,pitch:55},
+    {id:'ubud',n:'Ubud',c:[115.275,-8.49],z:12.1,pitch:55},
+    {id:'batur',n:'Mt Batur',c:[115.378,-8.26],z:11.6,pitch:68,bearing:20},
+    {id:'penida',n:'Nusa Penida',c:[115.5,-8.73],z:11.4}
+  ];
+  var DAYS=[
+    {d:'D2',t:'Land and chill',ids:['air','s1'],v:{c:[115.155,-8.70],z:11.6}},
+    {d:'D3',t:'Beach club and night one',ids:['s1','finns','brisa','tanah'],v:{c:[115.115,-8.645],z:12.4}},
+    {d:'D4',t:'Rice, rush and Ubud',ids:['s1','tegen','tegal','s2'],v:{c:[115.22,-8.55],z:10.6}},
+    {d:'D5',t:'Sunrise mountain',ids:['s2','batur','tirta'],v:{c:[115.33,-8.37],z:10.7,pitch:60}},
+    {d:'D6',t:'Rapids to cliffs',ids:['s2','raft','s3','ulutemple'],v:{c:[115.19,-8.67],z:10}},
+    {d:'D7',t:'Cliff sunset and night two',ids:['s3','padang','singlefin','savaya','sundays'],v:{c:[115.12,-8.828],z:12.6,pitch:55}},
+    {d:'D8',t:'Island day',ids:['s3','sanur','pport','crystal','keling','s4'],v:{c:[115.37,-8.72],z:10.7}},
+    {d:'D9',t:'Shop and last night',ids:['s4','sukawati','jimbaran','potato','kudeta','favela'],v:{c:[115.2,-8.68],z:11.5}},
+    {d:'D10',t:'Fly home',ids:['s4','air'],v:{c:[115.16,-8.71],z:12.2}}
+  ];
+  var LEGN={air:'Airport',s1:'Canggu',s2:'Ubud',s3:'Uluwatu',sanur:'Sanur harbour',s4:'Seminyak'};
+  var byId={};PL.forEach(function(p){byId[p.id]=p});
+  var map=null,sel=null,day=null,mode='sat',L={stay:true,club:true,sight:true,route:true},tier=2;
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+  function km(la1,lo1,la2,lo2){var r=Math.PI/180,a=Math.sin((la2-la1)*r/2),b=Math.sin((lo2-lo1)*r/2),h=a*a+Math.cos(la1*r)*Math.cos(la2*r)*b*b;return 12742*Math.asin(Math.sqrt(h))}
+  function decode(str){var i=0,lat=0,lng=0,out=[],b,s,r;while(i<str.length){s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lat+=(r&1)?~(r>>1):(r>>1);s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lng+=(r&1)?~(r>>1):(r>>1);out.push([lng/1e5,lat/1e5])}return out}
+  function arc(a,b,n){var r=Math.PI/180,out=[],f1=a[1]*r,l1=a[0]*r,f2=b[1]*r,l2=b[0]*r,d=2*Math.asin(Math.sqrt(Math.pow(Math.sin((f2-f1)/2),2)+Math.cos(f1)*Math.cos(f2)*Math.pow(Math.sin((l2-l1)/2),2)));
+    for(var i=0;i<=n;i++){var f=i/n,A=Math.sin((1-f)*d)/Math.sin(d),B=Math.sin(f*d)/Math.sin(d),x=A*Math.cos(f1)*Math.cos(l1)+B*Math.cos(f2)*Math.cos(l2),y=A*Math.cos(f1)*Math.sin(l1)+B*Math.cos(f2)*Math.sin(l2),z=A*Math.sin(f1)+B*Math.sin(f2);out.push([Math.atan2(y,x)/r,Math.atan2(z,Math.sqrt(x*x+y*y))/r])}return out}
+
+  /* ---------- panel ---------- */
+  function pb(p){return '<button type="button" class="pb" data-k="'+p.k+'" data-go="'+p.id+'">'+(p.k==='stay'?p.code+' '+p.short:esc(p.name))+'</button>'}
+  function overview(){
+    $('card').innerHTML='<h2>Where you are going</h2><p>Bali is one island in Indonesia, between Java to the west and Lombok to the east. You land at Bali\'s only international airport (DPS) in the south.</p><p>You sleep in four places on Bali: <b>1 Canggu</b>, <b>2 Ubud</b>, <b>3 Uluwatu</b> and <b>4 Seminyak</b>. On D8 a fast boat takes you to <b>Nusa Penida</b>, a separate island, and back.</p><p class="hint">Tap any pin, a day, or a button above to explore.</p><div class="plist">'+['air','s1','s2','s3','s4'].map(function(i){return pb(byId[i])}).join('')+'</div>';
+  }
+  function showPlace(p){
+    var h='<h2>'+(p.k==='stay'?p.code+' · '+p.short+': ':'')+esc(p.name)+'</h2><div class="tags"><span class="tag">'+KT[p.k]+'</span>'+(p.area?'<span class="tag">'+esc(p.area)+'</span>':'')+(p.day?'<span class="tag">'+esc(p.day)+'</span>':'')+(p.approx?'<span class="tag">Area pin</span>':'')+'</div>';
+    if(p.price)h+='<p class="price">'+esc(p.price)+'</p>';
+    h+='<p>'+esc(p.txt)+'</p>';
+    if(p.k==='oair')h+='<p class="hint">About '+Math.round(km(p.lat,p.lon,DPS[1],DPS[0]))+' km from your airport in a straight line.</p>';
+    if(p.k==='stay'||p.k==='club'||p.k==='sight')h+='<p class="hint">About '+Math.round(km(p.lat,p.lon,DPS[1],DPS[0]))+' km from the airport in a straight line.</p>';
+    h+='<div class="links"><button type="button" class="pb" data-fly="'+p.id+'">Zoom here</button>';
+    if(!p.nog||p.k==='oair')h+='<a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((p.q||p.name)+' Bali')+'" target="_blank" rel="noopener">Open in Google Maps</a>';
+    if(p.k==='stay')h+='<a href="https://www.booking.com/searchresults.html?ss='+encodeURIComponent(p.name+' Bali')+'" target="_blank" rel="noopener">Check dates</a>';
+    h+='</div>'+(p.nog?'':'<div id="gbox"></div>');
+    $('card').innerHTML=h;if(!p.nog)gFill(p);
+  }
+  function showDay(D){$('card').innerHTML='<h2>'+D.d+' · '+esc(D.t)+'</h2><p>These are the places for this day. Tap one to open it, or tap the day again to see everything.</p><div class="plist">'+D.ids.map(function(i){return pb(byId[i])}).join('')+'</div>'}
+  function mini(){var m=$('mini');if(!sel){m.hidden=true;return}m.hidden=false;m.innerHTML='<b>'+esc(sel.name)+'</b>'+esc(sel.price||sel.area||KT[sel.k])+' · tap for details'}
+  function select(id,go){
+    sel=byId[id]||null;if(!sel)return;showPlace(sel);mini();refresh();
+    if(go)fly(sel.v||{c:[sel.lon,sel.lat],z:sel.k==='sight'?13.5:14.5});
+  }
+  function setDay(i){
+    day=(day===i?null:i);
+    Array.prototype.forEach.call($('daybar').children,function(b,n){b.setAttribute('aria-pressed',String(n===day))});
+    if(day!==null){showDay(DAYS[day]);fly(DAYS[day].v)}else if(sel)showPlace(sel);else overview();
+    refresh();
+  }
+  $('viewbar').innerHTML=VIEWS.map(function(v,i){return '<button type="button" class="chip" data-v="'+i+'">'+v.n+'</button>'}).join('');
+  $('layerbar').innerHTML=[['stay','Stays'],['club','Clubs'],['sight','Sights'],['route','Routes']].map(function(x){return '<button type="button" class="chip" aria-pressed="true" data-l="'+x[0]+'">'+x[1]+'</button>'}).join('');
+  $('daybar').innerHTML=DAYS.map(function(D,i){return '<button type="button" class="chip" aria-pressed="false" data-d="'+i+'" title="'+esc(D.t)+'">'+D.d+'</button>'}).join('');
+  $('plist').innerHTML=[['Airports and stays',['air','oair','stay']],['Clubs',['club']],['Sights',['sight']],['Islands',['isl']]].map(function(g){return '<h3>'+g[0]+'</h3>'+PL.filter(function(p){return g[1].indexOf(p.k)>=0}).map(pb).join('')}).join('');
+  var tk=0,tm=0;
+  $('legs').innerHTML=ROUTES.map(function(r){tk+=r.km||0;tm+=r.min||0;return '<tr><td>'+LEGN[r.a]+' to '+LEGN[r.b]+'</td><td class="n">'+(r.km?r.km.toFixed(0)+' km':'n/a')+'</td><td class="n">'+(r.min?r.min+' min':'n/a')+'</td></tr>'}).join('')+(ROUTES.length?'<tr><td><b>All legs</b></td><td class="n"><b>'+tk.toFixed(0)+' km</b></td><td class="n"><b>'+tm+' min</b></td></tr>':'<tr><td colspan="3">No route data.</td></tr>');
+  $('viewbar').addEventListener('click',function(e){var b=e.target.closest('button');if(b)fly(VIEWS[+b.dataset.v])});
+  $('layerbar').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var k=b.dataset.l;L[k]=!L[k];b.setAttribute('aria-pressed',String(L[k]));refresh()});
+  $('daybar').addEventListener('click',function(e){var b=e.target.closest('button');if(b)setDay(+b.dataset.d)});
+  $('plist').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b){select(b.dataset.go,true);$('mapwrap').scrollIntoView({block:'nearest'})}});
+  $('card').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b){select(b.dataset.go,false);return}b=e.target.closest('[data-fly]');if(b){select(b.dataset.fly,true);$('mapwrap').scrollIntoView({block:'nearest'})}});
+  $('mini').addEventListener('click',function(){$('card').scrollIntoView({block:'start',behavior:'smooth'})});
+
+  /* ---------- map (MapLibre) ---------- */
+  function tierOf(z){return z<6?0:z<8.3?1:z<11.3?2:z<12.6?3:4}
+  function refresh(){
+    var ids=day!==null?DAYS[day].ids:null;
+    PL.forEach(function(p){
+      if(!p.el)return;var inDay=ids?ids.indexOf(p.id)>=0:false,isSel=sel===p,show,lab=true,k=p.k;
+      if(k==='city')show=tier===0;
+      else if(k==='air')show=true;
+      else if(k==='oair')show=tier<=2;
+      else if(k==='isl')show=tier===1||(p.id==='i-penida'&&tier===2);
+      else if(k==='stay')show=L.stay&&tier>=2;
+      else if(k==='sight'){show=L.sight&&tier>=2;lab=tier>=4||inDay}
+      else{show=L.club&&(tier>=3||inDay);lab=tier>=3||inDay}
+      if(isSel)show=true;
+      p.el.style.display=show?'':'none';p.el.classList.toggle('nolb',!lab&&!isSel);p.el.classList.toggle('sel',isSel);
+      p.el.classList.toggle('dim',!!ids&&!inDay&&!isSel&&(k==='stay'||k==='club'||k==='sight'));
+      p.el.style.zIndex=isSel?9:(k==='stay'||k==='air'?5:k==='club'?3:2);
+    });
+    if(map&&map.getLayer('routes')){var v=L.route?'visible':'none';['routes','routes-case','boat'].forEach(function(l){map.setLayoutProperty(l,'visibility',v)})}
+  }
+  function fly(v){
+    if(mode==='g3'&&G3){g3Fly(v);return}
+    if(!map)return;
+    if(v.b)map.fitBounds(v.b,{padding:30,pitch:0,bearing:0,duration:2200});
+    else map.flyTo({center:v.c,zoom:v.z,pitch:v.pitch==null?(terrainOn?50:0):v.pitch,bearing:v.bearing||0,duration:2200,essential:true});
+  }
+  var terrainOn=true;
+  function mapErr(msg){var e=$('maperr');e.hidden=false;e.textContent=msg}
+  function initMap(){
+    if(!window.maplibregl){mapErr('The map could not load. It needs an internet connection.');return}
+    var STYLE={version:8,sources:{
+      sat:{type:'raster',tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],tileSize:256,maxzoom:19,attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics'},
+      ref:{type:'raster',tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],tileSize:256,maxzoom:19},
+      osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:19,attribution:'&copy; OpenStreetMap contributors'},
+      dem:{type:'raster-dem',tiles:['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],tileSize:256,maxzoom:13,encoding:'terrarium',attribution:'Terrain: Mapzen, AWS'}},
+      layers:[{id:'bg',type:'background',paint:{'background-color':'#0b2a3a'}},{id:'sat',type:'raster',source:'sat'},{id:'osm',type:'raster',source:'osm',layout:{visibility:'none'}},{id:'ref',type:'raster',source:'ref'}],
+      terrain:{source:'dem',exaggeration:1.5},
+      sky:{'sky-color':'#8fc7e8','horizon-color':'#dff1f8','fog-color':'#dff1f8','sky-horizon-blend':0.6,'horizon-fog-blend':0.6,'fog-ground-blend':0.2}};
+    var hv=VIEWS.filter(function(v){return v.c&&v.id===location.hash.slice(1)})[0]||VIEWS[2];
+    try{map=new maplibregl.Map({container:'map',style:STYLE,center:hv.c,zoom:hv.z,pitch:hv.pitch==null?50:hv.pitch,bearing:hv.bearing||0,maxPitch:75,attributionControl:{compact:true}})}
+    catch(e){mapErr('This browser could not start the map (WebGL is off).');map=null;return}
+    map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),'top-right');
+    map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-left');
+    PL.forEach(function(p){
+      var b=document.createElement('button');b.type='button';b.className='mk'+(p.id==='s1'||p.id==='potato'||p.id==='brisa'||p.id==='singlefin'||p.id==='tanah'?' left':'');b.dataset.k=p.k;b.setAttribute('aria-label',p.name);
+      b.innerHTML='<i>'+(p.code||'')+'</i><span class="lb">'+esc(p.k==='stay'?p.code+' '+p.short:(p.label||p.name))+'</span>';
+      b.addEventListener('click',function(e){e.stopPropagation();select(p.id,p.k==='isl'&&!!p.v)});
+      p.el=b;p.m=new maplibregl.Marker({element:b,anchor:'center'}).setLngLat([p.lon,p.lat]).addTo(map);
+    });
+    map.on('zoom',function(){var t=tierOf(map.getZoom());if(t!==tier){tier=t;refresh()}});
+    map.on('load',function(){
+      var feats=ROUTES.filter(function(r){return r.g}).map(function(r){return {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:decode(r.g)}}});
+      map.addSource('routes',{type:'geojson',data:{type:'FeatureCollection',features:feats}});
+      map.addLayer({id:'routes-case',type:'line',source:'routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#0D2830','line-width':6.5,'line-opacity':0.7}});
+      map.addLayer({id:'routes',type:'line',source:'routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#FFC94D','line-width':3.5}});
+      map.addSource('boat',{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[[byId.sanur.lon,byId.sanur.lat],[115.38,-8.672],[byId.pport.lon,byId.pport.lat]]}}});
+      map.addLayer({id:'boat',type:'line',source:'boat',paint:{'line-color':'#FFFFFF','line-width':3,'line-dasharray':[1,2]}});
+      map.addSource('air',{type:'geojson',data:{type:'FeatureCollection',features:[
+        {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:arc([byId.khi.lon,byId.khi.lat],DPS,48)}},
+        {type:'Feature',properties:{},geometry:{type:'LineString',coordinates:arc(DPS,[byId.isb.lon,byId.isb.lat],48)}}]}});
+      map.addLayer({id:'air',type:'line',source:'air',maxzoom:7.5,paint:{'line-color':'#FFFFFF','line-width':2.5,'line-dasharray':[2,2]}});
+      refresh();
+    });
+    tier=tierOf(map.getZoom());refresh();
+  }
+  function setBase(b){
+    if(b==='g3'){openG3();return}
+    mode=b;$('g3').hidden=true;$('map').style.visibility='';
+    if(map){map.setLayoutProperty('sat','visibility',b==='sat'?'visible':'none');map.setLayoutProperty('ref','visibility',b==='sat'?'visible':'none');map.setLayoutProperty('osm','visibility',b==='osm'?'visible':'none');map.resize()}
+    markBase();
+  }
+  function markBase(){Array.prototype.forEach.call(document.querySelectorAll('[data-base]'),function(x){x.setAttribute('aria-pressed',String(x.dataset.base===mode))})}
+  $('basebar').addEventListener('click',function(e){var b=e.target.closest('[data-base]');if(b)setBase(b.dataset.base)});
+  $('terr').addEventListener('click',function(){
+    terrainOn=!terrainOn;this.setAttribute('aria-pressed',String(terrainOn));if(!map)return;
+    map.setTerrain(terrainOn?{source:'dem',exaggeration:1.5}:null);map.easeTo({pitch:terrainOn?50:0,duration:800});
+  });
+
+  /* ---------- Google mode (optional, needs the user's key) ---------- */
+  var G3=null,gLoad=null,gBad=false;
+  function gKey(){try{return localStorage.getItem('gmapsKey')||''}catch(e){return ''}}
+  function gMsg(t){$('gmsg').textContent=t}
+  function loadGoogle(){
+    var key=gKey();if(!key)return Promise.reject(new Error('No Google key saved'));
+    if(gLoad)return gLoad;
+    gLoad=new Promise(function(res,rej){
+      window.gm_authFailure=function(){gBad=true;gMsg('Google rejected this key. Check the key, billing, and that the three APIs are enabled.')};
+      window.__gmReady=function(){res()};
+      var s=document.createElement('script');s.async=true;
+      s.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(key)+'&v=beta&loading=async&callback=__gmReady';
+      s.onerror=function(){gLoad=null;rej(new Error('Google Maps could not load'))};document.head.appendChild(s);
+    });
+    return gLoad;
+  }
+  function gPlace(p){
+    if(p.gp)return p.gp;
+    p.gp=loadGoogle().then(function(){return google.maps.importLibrary('places')}).then(function(lib){
+      return lib.Place.searchByText({textQuery:(p.q||p.name)+', Bali, Indonesia',fields:['displayName','location','formattedAddress','rating','userRatingCount','photos','googleMapsURI'],maxResultCount:1,locationBias:{lat:p.lat,lng:p.lon}});
+    }).then(function(r){
+      var pl=r&&r.places&&r.places[0];if(!pl)return null;
+      var loc=pl.location,g={name:pl.displayName||p.name,addr:pl.formattedAddress||'',rating:pl.rating||0,n:pl.userRatingCount||0,url:pl.googleMapsURI||'',lat:loc?loc.lat():null,lng:loc?loc.lng():null,photo:'',by:''};
+      if(pl.photos&&pl.photos[0]){try{g.photo=pl.photos[0].getURI({maxHeight:420});var a=pl.photos[0].authorAttributions;g.by=a&&a[0]?a[0].displayName:''}catch(e){}}
+      if(p.approx&&g.lat!==null&&km(p.lat,p.lon,g.lat,g.lng)<12){p.lat=g.lat;p.lon=g.lng;p.approx=false;if(p.m)p.m.setLngLat([p.lon,p.lat]);if(p.gm)p.gm.position={lat:p.lat,lng:p.lon,altitude:0}}
+      return g;
+    });
+    p.gp.catch(function(){p.gp=null});
+    return p.gp;
+  }
+  function gFill(p){
+    var box=$('gbox');if(!box)return;
+    if(!gKey()){box.innerHTML='<p class="hint">Add a Google Maps key (bottom of this panel) to see photos, ratings and the exact address here.</p>';return}
+    box.innerHTML='<p class="hint">Loading Google details…</p>';
+    gPlace(p).then(function(g){
+      if(sel!==p||!$('gbox'))return;box=$('gbox');
+      if(!g){box.innerHTML='<p class="hint">Google did not find this place.</p>';return}
+      var h='';if(g.photo)h+='<img class="gph" alt="Photo of '+esc(g.name)+'" src="'+esc(g.photo)+'">'+(g.by?'<p class="hint">Photo: '+esc(g.by)+', via Google</p>':'');
+      h+='<p><b>'+esc(g.name)+'</b>'+(g.rating?' · '+g.rating.toFixed(1)+' stars ('+g.n.toLocaleString('en-US')+' Google reviews)':'')+'</p>'+(g.addr?'<p class="hint">'+esc(g.addr)+'</p>':'')+(g.url?'<p><a href="'+esc(g.url)+'" target="_blank" rel="noopener">Open this exact place in Google Maps</a></p>':'');
+      box.innerHTML=h;
+    }).catch(function(e){if(sel===p&&$('gbox'))$('gbox').innerHTML='<p class="hint">Google lookup failed: '+esc(e&&e.message||e)+'</p>'});
+  }
+  function g3Fly(v){
+    var c=v.b?[90,12]:v.c,range=v.b?9000000:35200000/Math.pow(2,v.z)*1.4;
+    try{G3.el.flyCameraTo({endCamera:{center:{lat:c[1],lng:c[0],altitude:0},tilt:v.b?0:(v.pitch==null?55:v.pitch),range:range,heading:v.bearing||0},durationMillis:2200})}catch(e){gMsg('Google 3D could not move the camera: '+e.message)}
+  }
+  function openG3(){
+    if(!gKey()){$('gdet').open=true;$('gdet').scrollIntoView({block:'nearest'});$('gkey').focus();gMsg('Paste a Google Maps key first to use Google 3D.');return}
+    gMsg('Loading Google 3D…');
+    loadGoogle().then(function(){return google.maps.importLibrary('maps3d')}).then(function(lib){
+      if(!G3){
+        var el=new lib.Map3DElement({center:{lat:-8.62,lng:115.28,altitude:0},range:95000,tilt:55,heading:0,mode:'HYBRID'});
+        $('g3').appendChild(el);G3={el:el};
+        PL.forEach(function(p){
+          if(p.k==='isl'||p.k==='city')return;
+          var m=new lib.Marker3DInteractiveElement({position:{lat:p.lat,lng:p.lon,altitude:0},label:p.k==='stay'?p.code+' '+p.short:(p.label||p.name),altitudeMode:'CLAMP_TO_GROUND',extruded:true});
+          m.addEventListener('gmp-click',function(){select(p.id,false)});el.append(m);p.gm=m;
+        });
+      }
+      mode='g3';$('g3').hidden=false;$('map').style.visibility='hidden';markBase();gMsg(gBad?'Google rejected this key.':'Google 3D is on.');
+    }).catch(function(e){gMsg('Google 3D could not start: '+(e&&e.message||e));setBase('sat')});
+  }
+  $('gsave').addEventListener('click',function(){
+    var k=$('gkey').value.trim();if(!k){gMsg('Paste a key first.');return}
+    try{localStorage.setItem('gmapsKey',k)}catch(e){gMsg('This browser would not save the key.');return}
+    $('gkey').value='';gMsg('Key saved in this browser. Tap a place for Google details, or press Google 3D.');if(sel&&!sel.nog)gFill(sel);
+  });
+  $('gclear').addEventListener('click',function(){try{localStorage.removeItem('gmapsKey')}catch(e){}gMsg('Key removed. Reload the page to fully switch Google off.');if(mode==='g3')setBase('sat')});
+  if(gKey())gMsg('A Google key is saved in this browser.');
+
+  overview();initMap();
+})();
+</script>
+</body>
+</html>
