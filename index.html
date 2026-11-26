@@ -63,7 +63,7 @@ input[type=password]{font:inherit;width:100%;padding:9px 10px;border-radius:8px;
 .plist h3{flex-basis:100%;margin:6px 0 0;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 button.pb{font:inherit;font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:5px 11px;border-radius:999px}
 button.pb::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;background:var(--kc,var(--muted))}
-[data-k="stay"]{--kc:var(--c-stay)}[data-k="club"]{--kc:var(--c-club)}[data-k="sight"]{--kc:var(--c-sight)}[data-k="air"]{--kc:var(--c-air)}[data-k="oair"]{--kc:var(--c-oair)}[data-k="hotel"]{--kc:var(--c-hotel)}[data-k="rent"]{--kc:var(--c-rent)}[data-k="act"]{--kc:var(--c-act)}[data-k="port"]{--kc:#1D6FA5}
+[data-k="stay"]{--kc:var(--c-stay)}[data-k="club"]{--kc:var(--c-club)}[data-k="sight"]{--kc:var(--c-sight)}[data-k="air"]{--kc:var(--c-air)}[data-k="oair"]{--kc:var(--c-oair)}[data-k="hotel"]{--kc:var(--c-hotel)}[data-k="rent"]{--kc:var(--c-rent)}[data-k="act"]{--kc:var(--c-act)}[data-k="port"]{--kc:#1D6FA5}[data-k="money"]{--kc:#B07A00}
 /* map pins */
 .mk{background:none;border:0;padding:0;margin:0;cursor:pointer;font:inherit;color:inherit}
 .mk i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--kc);color:#fff;border:2.5px solid #fff;font:800 13px/1 system-ui,sans-serif;font-style:normal;box-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -75,6 +75,7 @@ button.pb::before{content:"";display:inline-block;width:9px;height:9px;border-ra
 .rl{font:700 12px/1.2 system-ui,sans-serif;padding:3px 9px;border-radius:999px;white-space:nowrap;pointer-events:none;box-shadow:0 1px 6px rgba(0,0,0,.45)}
 .rl.reach{background:#FFC94D;color:#0D2830}
 .rl.boat{background:#fff;color:#0D2830;pointer-events:auto;cursor:pointer;border:0;font:700 12px/1.2 system-ui,sans-serif}
+.mk[data-k="money"] i{width:24px;height:24px;font-size:13px}
 .mk[data-k="port"] i{width:22px;height:22px;font-size:11px;border-radius:6px}
 .dblk{border-left:4px solid var(--dc);padding:2px 0 2px 10px;display:grid;gap:4px}
 .dblk .hint{margin:0}
@@ -139,6 +140,16 @@ button.pb[data-k="air"]{--kc:var(--ink)}
       </ul>
       <p class="hint">The pink scooter pins are rental shops listed on OpenStreetMap near each stay. Their prices and reviews are not checked, so read the Google reviews first.</p>
     </details>
+    <details id="moneydet"><summary>Changing money</summary>
+      <ul class="facts">
+        <li><b>Where:</b> BMC Money Changer (PT Bali Maspintjinra), an authorised changer. The gold $ pins show five branches: two near Seminyak and Canggu, three in Ubud.</li>
+        <li><b>When:</b> change a little at the airport for the taxi, then the rest at the Kerobokan branch on D2 or the Ubud branch on D4.</li>
+        <li><b>Hours:</b> the head office in Seminyak is open 9:00 am to 10:00 pm every day. Branch hours are not checked.</li>
+        <li><b>Bring:</b> US dollars in clean, new notes. Its website does not list Pakistani rupees.</li>
+        <li><b>At the counter:</b> count the notes yourself before you leave and keep the receipt. Walk away from any shop that offers a rate far above the others.</li>
+        <li><b>No branch near Uluwatu:</b> none is in the map data there, so carry enough cash for D6 and D7.</li>
+      </ul>
+    </details>
     <details><summary>All places</summary><div class="plist" id="plist"></div></details>
     <details id="gdet"><summary>Google Maps mode (needs your key)</summary>
       <p class="hint">With your own Google Maps key this page adds Google's 3D view, plus photos, ratings and exact addresses when you tap a place. Google charges each map load and place lookup to your Cloud credits.</p>
@@ -161,7 +172,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
 (function(){
   var $=function(i){return document.getElementById(i)};
   var ROUTES=[{"a":"air","b":"s1","km":15.7,"min":21,"g":"hekt@sl|}TcDF]}_AwBgBzBi[sByCaVjKsx@fKyq@gQou@u[cMO}dD`cB}OvRc]iDse@pCcCfj@zGjg@J|h@kRpFsJoHeTaBe@`FsSQqDbc@sBrFeFmC"},{"a":"s1","b":"s2","km":31.6,"min":31,"g":"vbzs@akw}T{g@}RwPmPDqLsh@mf@uInIzYw`@rIex@cI}CvEkRix@cQkDq|BpQi}@kTcsAyBydElVyXa]gJkJaZ}|Abc@slAxGszBaHop@gKaIsEr@yHoy@{Qe|Ca@sr@sJ}{A`BiBnXiz@iO"},{"a":"s2","b":"s3","km":53.1,"min":51,"g":"xv|r@kbo~TBcTxnAzNl{GtDlsBpn@rzB`HrlAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEz|A}d@~qDxEtGzhAnoAzwDgHhu@td@lfBnAt{@~w@vUd{A}YflAlVbnClAp]|sA`mEthAbNty@fm@ti@dMbgAor@jU_k@z|@m~@ec@"},{"a":"s3","b":"sanur","km":36.9,"min":37,"g":"l|vt@m~r}TvMhSto@zN~j@{|@nr@kUeMcgAgm@ui@cNuy@a\\yS}hByXyeA}Y?}FsEzAnEuVuZe\\{CuVilCiD}iAoV_}A|Yu}@aWnAcy@}d@ogBdHyu@a_@}w@i@}^wUu~@iWg_@kBmdAuvDqIsm@bXo}@xJ`z@kJda@wPwC_OqHh@"},{"a":"sanur","b":"s4","km":14.5,"min":17,"g":"lh|s@gzn~TrGwBlE~P~MiG`@xKyKh_FcPjA{Ad}@fEpHfc@dQpV~QrD~HxDn`@oC~q@qg@`[wGjLpB``@aI~Uz@zTqDlx@nFr@zGfT`Mn@tChO}Bv@"},{"a":"s4","b":"air","km":13,"min":17,"g":"ls}s@c~y}T|Bw@sDcZzEgN`X~BN}B?}K_WuBVkFvWVpL}VdKwJ|gDucB|Kf@bq@jZdt@rRd{@cLhXwQdAxEeEla@bBzA\\|_AbDG"}];
-  var KT={air:'Your airport',oair:'Other airport',stay:'Your stay',club:'Club',sight:'Sight',isl:'Island',city:'Home',hotel:'Other hotel option',rent:'Scooter rental',act:'More to do',port:'Boat port'};
+  var KT={air:'Your airport',oair:'Other airport',stay:'Your stay',club:'Club',sight:'Sight',isl:'Island',city:'Home',hotel:'Other hotel option',rent:'Scooter rental',act:'More to do',port:'Boat port',money:'Money changer'};
   var SCOOT=8;
   var DAYR={"D2":{"km":15.7,"min":21,"g":["hekt@sl|}TcDF]}_AwBgBzBi[sByCaVjKsx@fKyq@gQou@u[cMO}dD`cB}OvRc]iDse@pCcCfj@zGjg@J|h@kRpFsJoHeTaBe@`FsSQqDbc@sBrFeFmC"],"legs":[{"a":"air","b":"s1","km":15.7,"min":21,"s":0}]},"D3":{"km":34.4,"min":53,"g":["vbzs@akw}T~NvDnd@Dgp@y@e[wKa^sWwCqI|AcDsh@eg@gGjJaCcAe]jm@H~OwWvs@i|@f{AuMtNaw@jV_TtScTzd@xbA`w@zEd\\`EvEsDxE`BpIzG{H~GfD_HgD{GzH_J}LtF{HaFo\\ybAaw@bT{d@~SuS`w@kVtMuNd{@gyArYkx@dK~L~MhDd\\pXtFdSr_@~X~S`W_TaWs_@_YuFeSe\\qXsO{EqImKa@kMbd@qz@jl@bi@i@bFzB`BwAjBvPlPlQbKlUxF"],"legs":[{"a":"s1","b":"finns","km":1,"min":2,"s":0},{"a":"finns","b":"tanah","km":14.1,"min":21,"s":0},{"a":"tanah","b":"brisa","km":11.9,"min":18,"s":0},{"a":"brisa","b":"s1","km":7.3,"min":12,"s":0}]},"D4":{"km":63.3,"min":65,"g":["vbzs@akw}T{g@}Rez@meAuInIdZsa@|EsoAix@cQkDq|BpQi}@kTcsAyBydEbVsYq\\eIuKuZy{Anc@uoAnGs[{gB|Ua[iGuv@{uBjEcH`XknBbXfMsoC~k@pAxLd`@yLe`@{k@fL_ObaCouFfN{@hRekE{b@aiAm\\mwAnMelBsXywB~FxwB_GdlBrXpyAcMpvD~l@iDfd@bMnBgMrP"],"legs":[{"a":"s1","b":"tegen","km":32.4,"min":31,"s":0},{"a":"tegen","b":"tegal","km":20.1,"min":22,"s":0},{"a":"tegal","b":"s2","km":10.9,"min":12,"s":0}]},"D5":{"km":92.6,"min":84,"g":["xv|r@kbo~TjFcy@ryAtQo@gtC{vDrDo{@yPcShOqmAiOinCmfB{_A~VicBcM{Igy@glD_}AowAgVatA{y@yuC`Ys|BiYqcDkpAu^o^uY~HlCuT{U_BbEkXcRsH|Ggk@eSxNau@wd@uP}a@mN~f@swA|GcI|ObI}OrwA}GlN_g@tP|a@`u@vd@dSyN}Gfk@bRrHcEjXzU~AoC~SvYiHnaAjq@nwDzmAnpAhHdkCmX`tAzy@nwAfVflD~|ApH`y@gh@{MpJuRqJtRvN`GtzBvShcAsV~iCvdBlpAzPpTeOn{@xPzvDsDn@ftCsyAuQgF~c@bMnBgMrP"],"legs":[{"a":"s2","b":"batur","km":44.9,"min":39,"s":0},{"a":"batur","b":"tirta","km":27.9,"min":28,"s":0},{"a":"tirta","b":"s2","km":19.7,"min":17,"s":0}]},"D6":{"km":77.4,"min":82,"g":["xv|r@kbo~Ts\\bx@eeBqE{F~n@}yAgU_@tZeAiZvONn{Gh}@h}@oYjo@Mxr@oe@fxDwk@f|DvZrlAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEz|A}d@~qDxEtGzhAnoAzwDgHhu@td@lfBnAt{@~w@vUd{A}YflAlVbnClAp]|sA`mEthAbNty@fm@ti@dMbgAor@jU_k@z|@m~@ec@vMhSpf@nG{Qjt@hb@zc@wDhg@f_@vSxOkKn^t\\o^u\\yOjKg_@wSvDig@ib@{c@zQkt@qf@oGwMiS"],"legs":[{"a":"s2","b":"raft","km":6.4,"min":7,"s":0},{"a":"raft","b":"s3","km":57.4,"min":54,"s":0},{"a":"s3","b":"ulutemple","km":6.8,"min":11,"s":0},{"a":"ulutemple","b":"s3","km":6.8,"min":10,"s":0}]},"D7":{"km":27.9,"min":48,"g":["l|vt@m~r}ToArDfEz@AvAdH~AWxBfB`@SdAnFH|EjE`CZzA_A|DnD~D_BfELPlF_C@_CrSwIrTVfG|@rItMpDs@zHjNHnBzDq@lEeB`@s@tGPhBtB|A?`HiFpV_B~BX|@Y}@~A_ChFqV?aHuB}AQiBr@uGdBa@p@mEoB{DkNIr@{HuMqDkBgNlJgXzBiSdMg@`H{OtS{SbLsVb[wIdDiHrPu@l@yCsDaAl@c^gJma@yEyI_ZcSzAqDnAkWpCgHjAkOfMlHlLc@d\\hApAmElByAe@kEhGF\\gA`BCVoBdLw@tD~CaAlE^zBhMEr@yAfCUhFgDfIh@gIi@iFfDgCTs@xAiMDbAbEjMzFqDtIhDz@aAbP|CfBDrHiBBm@`JhHV|@kJfIi@gIh@cAlJcHYIgBeNqBcFdUcTzDePs@}@nFoSmD~Gp[q@b]xDpAi@~CyP~@eDhHo[`JwKhVsSxSoHhPuHNWwFaEC_E~A}DoD{A~@aC[}EkEoFIReAgBa@VyBeH_B@wAgE{@nAsD"],"legs":[{"a":"s3","b":"padang","km":2.6,"min":4,"s":0},{"a":"padang","b":"singlefin","km":2.3,"min":3,"s":0},{"a":"singlefin","b":"sundays","km":12.2,"min":18,"s":0},{"a":"sundays","b":"savaya","km":2.9,"min":8,"s":0},{"a":"savaya","b":"s3","km":8,"min":15,"s":0}]},"D8":{"km":90.2,"min":115,"g":["l|vt@m~r}TvMhSto@zN~j@{|@nr@kUeMcgAgm@ui@cNuy@a\\yS}hByXyeA}Y?}FsEzAnEuVuZe\\{CuVilCiD}iAoV_}A|Yu}@aWnAcy@}d@ogBdHyu@a_@}w@i@}^wUu~@iWg_@kBmdAuvDqIsm@bXo}@xJ`z@kJda@wPwC_OqHh@","z|}s@{|{_Uy@tCtHlEjYjJxRaHvQ|ElYqFbDqJ|KvBfQ{ChC\\RbGlVUvGjI~Lf@rAdOyEdKxB~IkLxCfD~NlFb@tEbLnEdd@|J~BfBf^rRdM]pJ|@_H`CF}CjQ|CkQaCG}@~G\\qJsReMgBg^}J_CoEed@uEcLmFc@gDeOnLeD}BmIxEeKe@iXoCcEbAiK|EuDgFcPtBaJzKaGjDwHzF|@xRqHnJyIpL`BvEsQdM^`YgHr@`F~CLqBfCtDnAPj[xEnJnTo@lOpY_@fHbEdBtJiC|FzQ|PuJdT`AyAfx@|G|L}AfShQ\\fGnCFjOGkOgGoCiQ]bBaRcHcNxAgx@eTaAsObKgHiRuJhCcEeB^gHsIsK\\sFwFwEwRpAuEaIf@iSaCiCh@_EsDiApBgC_DMcAiFqXnHyMUcEhQqLaBoJxIyRpH{F}@kDvHwFpA{GxNjFjN_FdGcAhKlC`F{@zEqEpA}IkDwCoFmVTScGiC]gQzC}KwBcDpJmYpFwQ}EyR`HkYkJuHmEx@uC","lh|s@gzn~TrGwBlE~P~MiG`@xKyKh_FcPjA{Ad}@fEpHfc@dQpV~QrD~HxDn`@oC~q@qg@`[wGjLpB``@aI~Uz@zTqDlx@nFr@zGfT`Mn@tChO}Bv@"],"legs":[{"a":"s3","b":"sanur","km":36.9,"min":37,"s":0},{"a":"sanur","b":"pport","boat":true,"min":45,"s":1},{"a":"pport","b":"crystal","km":8.6,"min":16,"s":1},{"a":"crystal","b":"keling","km":15.3,"min":25,"s":1},{"a":"keling","b":"pport","km":14.9,"min":19,"s":1},{"a":"pport","b":"sanur","boat":true,"min":45,"s":1},{"a":"sanur","b":"s4","km":14.5,"min":17,"s":2}]},"D9":{"km":86.1,"min":84,"g":["ls}s@c~y}TWaQaMo@kO{UvA}YkTt@yX_PqnAeD{c@uVqu@sOkDq|BpQi}@kTcsAyBydEjVcYy\\uImKuZa|Anc@uoAnGs[{gB|GgW~LyB}Aam@wDuHec@dCV`KfG][_Ml[g@jDrH|A`m@_MxB}GfW`^dhBfmAyGx{Aoc@tKtZr^xIrx@gUxHfPdz@vEdm@eKtn@wXdXxErzC^zEzgAvVv]fVf`Ah@x^d_@`x@gHhu@td@lfBx@|z@tx@nVd{A}YflAlVrvB`HnVsEpAhYn[~_@iEvj@oNnAiIcLbKuOjLtBrEcSa[e_@{CuVilCiD}iAoV_}A|YwrBgo@qlDxfBwOb_@bHrOc@t[zPxLe[lMgb@iE","ls}s@c~y}TlBZNsA`JdBt@dLALkAD@|AQr@cCLFWjBKkBJGV|BIVq@AcBjAEs@sLpFCXVp@dB`@Z|BNhDI\\g@CqFzAqSpEVNXtAj@fGhAPTB`BxClBR`@`@vCf@`AQ[o@kCk@HcDhAuCnB_GvB}Bh@_CH@l@_@j@oCHeDS_BuCuDHcBKiHyAg@[cCyNT[m@qHHg@vCuFXiC^eAjFlAdHBnGl@Z_G@wDMcBoKI}Ca@qEiAKOb@{ErJ`@bLIrGuNV`@@`@cCrL~DTHbELlA\\h@l@`EXrFA|KQzBk@`CdB~@fGhAPTB`BxClB^nAuBd@sF`D_GvB}Bh@_CH@l@_@j@iDHgCQiA_Ce@YeFDaJeBOrAmB["],"legs":[{"a":"s4","b":"sukawati","km":23.6,"min":20,"s":0},{"a":"sukawati","b":"jimbaran","km":35.3,"min":29,"s":0},{"a":"jimbaran","b":"s4","km":17.1,"min":16,"s":0},{"a":"s4","b":"potato","km":0.7,"min":3,"s":1},{"a":"potato","b":"kudeta","km":2.3,"min":6,"s":1},{"a":"kudeta","b":"favela","km":4.7,"min":6,"s":1},{"a":"favela","b":"s4","km":2.4,"min":3,"s":1}]},"D10":{"km":13,"min":17,"g":["ls}s@c~y}T|Bw@sDcZzEgN`X~BN}B?}K_WuBVkFvWVpL}VdKwJ|gDucB|Kf@bq@jZdt@rRd{@cLhXwQdAxEeEla@bBzA\\|_AbDG"],"legs":[{"a":"s4","b":"air","km":13,"min":17,"s":0}]}};
   var DPS=[115.1672,-8.7482];
@@ -244,6 +255,11 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     {id:'hp3',k:'hotel',code:'H',name:'Blue Harbor Beachfront Villas',area:'Nusa Penida (Ped)',lon:115.516,lat:-8.6752,near:'pen',approx:true,q:'Blue Harbor Beachfront Villas Nusa Penida',price:'About USD 67 a night (Booking.com snapshot)',txt:"Rated 9.0 from 1,420 reviews. On the beach and close to the harbour."},
     {id:'a16',k:'act',pen:true,name:'Broken Beach and Angel\'s Billabong',area:'Nusa Penida (west)',lon:115.4508,lat:-8.73313,q:'Broken Beach Nusa Penida',txt:"Sea arch and a natural rock pool on the west side, often added to the day tour. Stay behind the ropes, because waves sweep the rocks."},
     {id:'a17',k:'act',pen:true,name:'Diamond Beach',area:'Nusa Penida (east)',lon:115.61864,lat:-8.77614,q:'Diamond Beach Nusa Penida',txt:"White-cliff beach on the east side. It is too far to add to the west-side day tour, so it needs a night on the island."},
+    {id:'m1',k:'money',code:'$',name:"BMC Money Changer, head office (PT Bali Maspintjinra)",area:"Jalan Raya Seminyak 16A",lon:115.16833,lat:-8.69476,q:"BMC Money Changer Jalan Raya Seminyak 16A",price:"Open daily 9:00 am to 10:00 pm (official site)",txt:"The authorised money changer you picked. This is its head office in Seminyak. Count your notes at the counter before you leave, and keep the receipt. Bring US dollars in clean, new notes. Its website does not list Pakistani rupees, so do not plan on changing PKR here."},
+    {id:'m2',k:'money',code:'$',name:"BMC Money Changer, Kerobokan",area:"Jalan Raya Kerobokan",lon:115.16467,lat:-8.67916,q:"BMC Money Changer Jalan Raya Kerobokan",price:"Branch hours not checked. Head office is 9:00 am to 10:00 pm.",txt:"Branch of PT Bali Maspintjinra between your Canggu and Seminyak stays. One guide calls it the busiest branch. It is close to the road from the airport to Canggu, so you can stop here on D2. Count your notes at the counter before you leave, and keep the receipt. Bring US dollars in clean, new notes. Its website does not list Pakistani rupees, so do not plan on changing PKR here."},
+    {id:'m3',k:'money',code:'$',name:"BMC Money Changer, Ubud centre",area:"Jalan Raya Ubud 33",lon:115.26487,lat:-8.50806,q:"BMC Money Changer Jalan Raya Ubud 33",price:"Branch hours not checked. Head office is 9:00 am to 10:00 pm.",txt:"Branch of PT Bali Maspintjinra a short walk from your Ubud homestay. Count your notes at the counter before you leave, and keep the receipt. Bring US dollars in clean, new notes. Its website does not list Pakistani rupees, so do not plan on changing PKR here."},
+    {id:'m4',k:'money',code:'$',name:"BMC Money Changer, Monkey Forest Road",area:"Jalan Monkey Forest, Ubud",lon:115.26019,lat:-8.51546,q:"BMC Money Changer Jalan Monkey Forest, Ubud",price:"Branch hours not checked. Head office is 9:00 am to 10:00 pm.",txt:"Branch of PT Bali Maspintjinra on the way to the Monkey Forest. Count your notes at the counter before you leave, and keep the receipt. Bring US dollars in clean, new notes. Its website does not list Pakistani rupees, so do not plan on changing PKR here."},
+    {id:'m5',k:'money',code:'$',name:"BMC Money Changer, Pengosekan",area:"Jalan Raya Pengosekan, Ubud",lon:115.26347,lat:-8.52308,q:"BMC Money Changer Jalan Raya Pengosekan, Ubud",price:"Branch hours not checked. Head office is 9:00 am to 10:00 pm.",txt:"Branch of PT Bali Maspintjinra south of Ubud centre. Count your notes at the counter before you leave, and keep the receipt. Bring US dollars in clean, new notes. Its website does not list Pakistani rupees, so do not plan on changing PKR here."},
     {id:'i-bali',k:'isl',name:'Bali',label:'Bali · your island',lon:115.03,lat:-8.33,nog:true,v:{c:[115.2,-8.45],z:8.9,pitch:0},txt:'The island you stay on, in Indonesia. It is about 145 km from west to east. All four of your stays are in the south and centre.'},
     {id:'i-java',k:'isl',name:'Java',label:'Java',lon:114.1,lat:-8.05,nog:true,txt:'The next island to the west, across the narrow Bali Strait. You do not go there on this trip.'},
     {id:'i-lombok',k:'isl',name:'Lombok',label:'Lombok',lon:116.3,lat:-8.52,nog:true,txt:'The next island to the east. You do not go there on this trip.'},
@@ -277,7 +293,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   var LEGN={air:'Airport',s1:'Canggu',s2:'Ubud',s3:'Uluwatu',sanur:'Sanur harbour',s4:'Seminyak'};
   var byId={};PL.forEach(function(p){byId[p.id]=p});
   var DS=[],BL=[],DC=['#3DE0FF','#FF8A5B','#C3A6FF','#7CE38B','#FFE08A','#FF7EB6','#6FB1FF','#F4B183','#A5F0E8'];
-  var map=null,sel=null,mode='sat',L={stay:true,club:true,sight:true,route:true,hotel:true,rent:true,act:true,ring:true},tier=2,RL=[],RLon=[false,false,false,false];
+  var map=null,sel=null,mode='sat',L={stay:true,club:true,sight:true,route:true,hotel:true,rent:true,act:true,ring:true,money:true},tier=2,RL=[],RLon=[false,false,false,false];
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
   function km(la1,lo1,la2,lo2){var r=Math.PI/180,a=Math.sin((la2-la1)*r/2),b=Math.sin((lo2-lo1)*r/2),h=a*a+Math.cos(la1*r)*Math.cos(la2*r)*b*b;return 12742*Math.asin(Math.sqrt(h))}
   function decode(str){var i=0,lat=0,lng=0,out=[],b,s,r;while(i<str.length){s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lat+=(r&1)?~(r>>1):(r>>1);s=0;r=0;do{b=str.charCodeAt(i++)-63;r|=(b&31)<<s;s+=5}while(b>=32);lng+=(r&1)?~(r>>1):(r>>1);out.push([lng/1e5,lat/1e5])}return out}
@@ -290,6 +306,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   function dist(a,b){return km(a.lat,a.lon,b.lat,b.lon)}
   DAYS.forEach(function(D){var b=byId[D.base],e=D.end?byId[D.end]:null,far=null,R=0;D.ids.forEach(function(i){var d=dist(b,byId[i]);if(d>R){R=d;far=byId[i]}});D.R=Math.max(R,1);D.far=far;
     D.x=PL.filter(function(p){
+      if(p.k==='money')return dist(b,p)<=SCOOT||(!!e&&dist(e,p)<=SCOOT);
       if(p.k==='rent'||p.k==='hotel')return p.near===D.base||p.near===D.end||(D.d==='D8'&&p.near==='pen');
       return p.k==='act'&&(dist(b,p)<=SCOOT||(!!e&&dist(e,p)<=SCOOT)||(D.d==='D8'&&!!p.pen));
     }).map(function(p){return p.id})});
@@ -322,7 +339,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     $('card').innerHTML=h;if(!p.nog)gFill(p);
   }
   function showDay(D){
-    var b=byId[D.base],e=D.end?byId[D.end]:null,r=DAYR[D.d],grp=function(k){return D.x.filter(function(i){return byId[i].k===k}).map(function(i){return pb(byId[i])}).join('')},sc=grp('rent'),ho=grp('hotel'),ac=grp('act');
+    var b=byId[D.base],e=D.end?byId[D.end]:null,r=DAYR[D.d],grp=function(k){return D.x.filter(function(i){return byId[i].k===k}).map(function(i){return pb(byId[i])}).join('')},sc=grp('rent'),ho=grp('hotel'),ac=grp('act'),mo=grp('money');
     var h='<h2>'+D.d+' · '+esc(D.t)+'</h2><div class="tags"><span class="tag">'+(e?'Move: '+b.short+' to '+e.short:'Base: '+b.code+' '+b.short)+'</span><span class="tag">'+modeTag(D)+'</span></div><ul class="facts">';
     if(r)h+='<li><b>On the road:</b> about '+Math.round(r.km)+' km and '+hm(r.min)+' of driving on empty roads'+(D.d==='D8'?', plus two boat rides of about 45 minutes':'')+'. Bali traffic adds a lot.</li>';
     h+='<li><b>Getting around:</b> '+esc(D.how)+'</li>';
@@ -333,6 +350,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     h+='<div class="key"><span style="--sw:#FFC94D">Scooter or Grab range, '+SCOOT+' km around your stay</span><span style="--sw:'+DC[DAYS.indexOf(D)]+'">Today\'s road</span>'+(D.d==='D8'?'<span class="dash" style="--sw:#8FA8AD">Boat</span>':'')+'</div>';
     if(D.d==='D8')h+='<p class="note"><b>Overnight option:</b> you can sleep on Nusa Penida tonight and take a morning boat back. That gives time for the east side, like Diamond Beach. It would replace one Seminyak night.</p>';
     if(ac)h+='<p class="sub">What else you can do nearby</p><div class="plist">'+ac+'</div>';
+    if(mo)h+='<p class="sub">Money changer near your stay</p><div class="plist">'+mo+'</div>';
     if(sc)h+='<p class="sub">Scooter rental near your stay</p><div class="plist">'+sc+'</div>';
     if(ho)h+='<p class="sub">'+(D.d==='D8'?'Hotels on Nusa Penida and near your stays':'Other hotels near your stay')+'</p><div class="plist">'+ho+'</div>';
     $('card').innerHTML=h+'<p class="hint">Tap another day to add it, or tap this day again to clear it.</p>';
@@ -348,8 +366,9 @@ button.pb[data-k="air"]{--kc:var(--ink)}
     h+='<li><b>Ride apps:</b> there is no Uber in Bali. Use Grab or Gojek.</li></ul>';
     Ds.forEach(function(D){var r=DAYR[D.d],i=DAYS.indexOf(D);
       h+='<div class="dblk" style="--dc:'+DC[i]+'"><button type="button" class="dttl" data-only="'+i+'">'+D.d+' · '+esc(D.t)+'</button><p class="hint">'+modeTag(D)+(r?' · '+Math.round(r.km)+' km · '+hm(r.min):'')+(D.d==='D8'?' · plus boats':'')+'</p><div class="plist">'+D.ids.map(function(x){return pb(byId[x])}).join('')+'</div></div>'});
-    var ac=uni('act'),rn=uni('rent'),ho=uni('hotel');
+    var ac=uni('act'),rn=uni('rent'),ho=uni('hotel'),mo=uni('money');
     if(ac)h+='<p class="sub">What else you can do on these days</p><div class="plist">'+ac+'</div>';
+    if(mo)h+='<p class="sub">Money changers near these stays</p><div class="plist">'+mo+'</div>';
     if(rn)h+='<p class="sub">Scooter rental near these stays</p><div class="plist">'+rn+'</div>';
     if(ho)h+='<p class="sub">Other hotels near these stays</p><div class="plist">'+ho+'</div>';
     $('card').innerHTML=h+'<p class="hint">Each day has its own line colour on the map. Tap a day title to open only that day.</p>';
@@ -397,9 +416,9 @@ button.pb[data-k="air"]{--kc:var(--ink)}
   }
   function setDay(i){var k=DS.indexOf(i);if(k>=0)DS.splice(k,1);else{DS.push(i);DS.sort(function(a,b){return a-b})}applyDays(true)}
   $('viewbar').innerHTML=VIEWS.map(function(v,i){return '<button type="button" class="chip" data-v="'+i+'">'+v.n+'</button>'}).join('');
-  $('layerbar').innerHTML=[['stay','Stays'],['club','Clubs'],['sight','Sights'],['act','More to do'],['hotel','Other hotels'],['rent','Scooter rental'],['ring','Scooter circle'],['route','Routes']].map(function(x){return '<button type="button" class="chip" aria-pressed="true" data-l="'+x[0]+'">'+x[1]+'</button>'}).join('');
+  $('layerbar').innerHTML=[['stay','Stays'],['club','Clubs'],['sight','Sights'],['act','More to do'],['hotel','Other hotels'],['rent','Scooter rental'],['money','Money changer'],['ring','Scooter circle'],['route','Routes']].map(function(x){return '<button type="button" class="chip" aria-pressed="true" data-l="'+x[0]+'">'+x[1]+'</button>'}).join('');
   $('daybar').innerHTML=DAYS.map(function(D,i){return '<button type="button" class="chip" aria-pressed="false" data-d="'+i+'" title="'+esc(D.t)+'">'+D.d+'</button>'}).join('')+'<button type="button" class="chip" data-all="1">All days</button><button type="button" class="chip" id="dayclr" data-clr="1" hidden>Clear</button>';
-  $('plist').innerHTML=[['Airports and stays',['air','oair','stay']],['Other hotel options',['hotel']],['Scooter rental',['rent']],['Clubs',['club']],['Sights',['sight']],['More to do',['act']],['Boat ports',['port']],['Islands',['isl']]].map(function(g){return '<h3>'+g[0]+'</h3>'+PL.filter(function(p){return g[1].indexOf(p.k)>=0}).map(pb).join('')}).join('');
+  $('plist').innerHTML=[['Airports and stays',['air','oair','stay']],['Other hotel options',['hotel']],['Scooter rental',['rent']],['Clubs',['club']],['Sights',['sight']],['More to do',['act']],['Money changers',['money']],['Boat ports',['port']],['Islands',['isl']]].map(function(g){return '<h3>'+g[0]+'</h3>'+PL.filter(function(p){return g[1].indexOf(p.k)>=0}).map(pb).join('')}).join('');
   var tk=0,tm=0;
   $('legs').innerHTML=ROUTES.map(function(r){tk+=r.km||0;tm+=r.min||0;return '<tr><td>'+LEGN[r.a]+' to '+LEGN[r.b]+'</td><td class="n">'+(r.km?r.km.toFixed(0)+' km':'n/a')+'</td><td class="n">'+(r.min?r.min+' min':'n/a')+'</td></tr>'}).join('')+(ROUTES.length?'<tr><td><b>All legs</b></td><td class="n"><b>'+tk.toFixed(0)+' km</b></td><td class="n"><b>'+tm+' min</b></td></tr>':'<tr><td colspan="3">No route data.</td></tr>');
   $('viewbar').addEventListener('click',function(e){var b=e.target.closest('button');if(b)fly(VIEWS[+b.dataset.v])});
@@ -422,6 +441,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
       else if(k==='oair')show=tier<=2;
       else if(k==='isl')show=tier===1||(p.id==='i-penida'&&tier===2);
       else if(k==='port'){show=L.route&&tier>=2;lab=tier>=3}
+      else if(k==='money'){show=L.money&&(tier>=3||inDay);lab=tier>=4}
       else if(k==='stay')show=L.stay&&tier>=2;
       else if(k==='sight'){show=L.sight&&tier>=2;lab=tier>=4||(inDay&&(tier>=3||DS.length===1))}
       else if(k==='act'){show=L.act&&tier>=2;lab=tier>=4}
@@ -429,7 +449,7 @@ button.pb[data-k="air"]{--kc:var(--ink)}
       else{show=L.club&&(tier>=3||inDay);lab=tier>=3||(inDay&&DS.length===1)}
       if(isSel)show=true;
       p.el.style.display=show?'':'none';p.el.classList.toggle('nolb',!lab&&!isSel);p.el.classList.toggle('sel',isSel);
-      p.el.classList.toggle('dim',!!ids&&!inDay&&!isSel&&(k==='stay'||k==='club'||k==='sight'||k==='act'||k==='hotel'||k==='rent'));
+      p.el.classList.toggle('dim',!!ids&&!inDay&&!isSel&&(k==='stay'||k==='club'||k==='sight'||k==='act'||k==='hotel'||k==='rent'||k==='money'));
       p.el.style.zIndex=isSel?9:(k==='stay'||k==='air'?5:k==='club'?3:k==='sight'?2:1);
     });
     if(map&&map.getLayer('dayroute')){var v=L.route?'visible':'none',w=L.ring?'visible':'none';['routes','routes-case','boat','dayroute','dayroute-case'].forEach(function(l){map.setLayoutProperty(l,'visibility',v)});['reach-fill','reach-line'].forEach(function(l){map.setLayoutProperty(l,'visibility',w)})}
